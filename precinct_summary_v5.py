@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import base64
 import plotly.figure_factory as ff
+import plotly.graph_objects as go
 
 def create_download_link(df, filename):
     csv = df.to_csv(index=False)
