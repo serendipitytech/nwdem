@@ -90,6 +90,14 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
 
 def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
+    
+    selected_columns = [
+        # Add your columns here
+    ]
+    df_voting_history = df[selected_columns].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
+    voting_history = df_voting_history.max(axis=1)
+    df = df.assign(Voting_History=voting_history)
+
     return df
 
 def summary_tables():
