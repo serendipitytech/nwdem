@@ -191,6 +191,7 @@ def main():
         autosize=True,
         width=800,  # Adjust width
         height=600,  # Adjust height
+        style_cell={'text-align': 'center'},
     )
     st.plotly_chart(fig)
 
@@ -215,6 +216,7 @@ def main():
         autosize=True,
         width=800,  # Adjust width
         height=600,  # Adjust height
+        style_cell={'text-align': 'center'},
     )
     st.plotly_chart(fig2)
 
