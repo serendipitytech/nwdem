@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+st.set_page_config(layout="wide")  # Make the Streamlit app full width
+
 def summarize_voting_data(df, selected_elections, selected_precincts):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
     #df = df[df['Voter Status'] == 'ACT']
@@ -91,7 +93,7 @@ def load_data():
     return df
 
 def summary_tables():
-    st.set_page_config(layout="wide")  # Make the Streamlit app full width
+    
     st.title("Voting Data Summary")
     
     selected_elections = st.multiselect("Select three elections:", [
