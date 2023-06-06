@@ -1,6 +1,12 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import base64
+
+def create_download_link(df, filename):
+    csv = df.to_csv(index=False)
+    b64 = base64.b64encode(csv.encode()).decode() 
+    return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
 def summarize_voting_data(df, selected_elections, selected_precincts):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
@@ -135,11 +141,13 @@ def main():
     
     st.subheader("Voting Data Summary by Age Ranges")
     st.table(summary_age)
+    st.markdown(create_download_link(summary_age, "summary_age_data.csv"), unsafe_allow_html=True)
     #st.write('Row Totals:', row_totals_age)
     #st.write('Column Totals:', column_totals_age)
 
     st.subheader("Voting History by Race and Sex")
     st.table(summary_voting_history)
+    st.markdown(create_download_link(summary_voting_history, "summary_voting_history_data.csv"), unsafe_allow_html=True)
     # If the button is clicked, change the state to True
 
 
