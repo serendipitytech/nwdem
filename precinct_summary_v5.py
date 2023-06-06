@@ -55,10 +55,14 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
     race_order = ["African American", "Hispanic", "White", "Other"]
     sex_order = ["M", "F", "U"]
-    summary_age = summary_age.reindex(race_order, level='Race')
+    #summary_age = summary_age.reindex(race_order, level='Race')
     #summary_age = summary_age.reindex(sex_order, level='Sex')
-    summary_age = summary_age.reindex(sex_order, level='Sex')
-    summary_age.index = summary_age.index.map(lambda x: f'{x[0]}, {sex_mapping[x[1]]}')  # Combine the multi-index levels into a single string
+    #summary_age = summary_age.reindex(sex_order, level='Sex')
+    #summary_age.index = summary_age.index.map(lambda x: f'{x[0]}, {sex_mapping[x[1]]}')  # Combine the multi-index levels into a single string
+    summary_age = summary_age.reset_index()  # Reset the multi-index to columns
+    summary_age['Race & Sex'] = summary_age['Race'] + ', ' + summary_age['Sex'].map(sex_mapping)  # Combine Race and Sex into a new column
+    summary_age = summary_age.set_index('Race & Sex').drop(columns=['Race', 'Sex'])  # Set the new column as index and remove the old ones
+    summary_age.loc["Column_Total"]= summary_age.sum(numeric_only=True, axis=0)
 
 
     
@@ -93,10 +97,15 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     df['Voting History'] = voting_history
 
     summary_voting_history = df.groupby(['Race', 'Sex', 'Voting History']).size().unstack(fill_value=0)
-    summary_voting_history = summary_voting_history.reindex(race_order, level='Race')
+    #summary_voting_history = summary_voting_history.reindex(race_order, level='Race')
     #summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
-    summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
-    summary_voting_history.index = summary_voting_history.index.map(lambda x: f'{x[0]}, {sex_mapping[x[1]]}')  # Combine the multi-index levels into a single string
+    #summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
+    #summary_voting_history.index = summary_voting_history.index.map(lambda x: f'{x[0]}, {sex_mapping[x[1]]}')  # Combine the multi-index levels into a single string
+    summary_voting_history = summary_voting_history.reset_index()  # Reset the multi-index to columns
+    summary_voting_history['Race & Sex'] = summary_voting_history['Race'] + ', ' + summary_voting_history['Sex'].map(sex_mapping)  # Combine Race and Sex into a new column
+    summary_voting_history = summary_voting_history.set_index('Race & Sex').drop(columns=['Race', 'Sex'])  # Set the new column as index and remove the old ones
+    summary_voting_history.loc["Column_Total"]= summary_voting_history.sum(numeric_only=True, axis=0)
+
 
 
     row_totals_voting_history = summary_voting_history.sum(axis=1)
