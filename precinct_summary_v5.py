@@ -90,7 +90,7 @@ def main():
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Voting Data Summary")
 
-    file_path = "/Users/troyshimkus/Documents/NW Dems/PyProj/nw_dems_data.txt"
+    file_path = "https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt"
     selected_elections = st.multiselect("Select three elections:", [
         "03-07-2023 Flagler Beach(Mar/07/2023)",
         "03/07/2023 Flagler Beach(Mar/07/2023)",
