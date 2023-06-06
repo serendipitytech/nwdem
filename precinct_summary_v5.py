@@ -55,7 +55,10 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     race_order = ["African American", "Hispanic", "White", "Other"]
     sex_order = ["M", "F", "U"]
     summary_age = summary_age.reindex(race_order, level='Race')
+    #summary_age = summary_age.reindex(sex_order, level='Sex')
     summary_age = summary_age.reindex(sex_order, level='Sex')
+    summary_age.index = summary_age.index.map(', '.join)  # Combine the multi-index levels into a single string
+
     
     row_totals_age = summary_age.sum(axis=1)
     column_totals_age = summary_age.sum(axis=0)
