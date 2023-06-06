@@ -136,8 +136,16 @@ def main():
 
     st.subheader("Voting History by Race and Sex")
     st.table(summary_voting_history)
-    #st.write('Row Totals:', row_totals_voting_history)
-    #st.write('Column Totals:', column_totals_voting_history)
+    # Add a button for the user to click to view underlying data
+    if st.button('Show Underlying Records'):
+    # Add a selectbox for the user to select a race
+    race = st.selectbox('Select a Race', df['Race'].unique())
+    # Add a selectbox for the user to select a sex
+    sex = st.selectbox('Select a Sex', df['Sex'].unique())
+    # Filter the dataframe based on the selected race and sex
+    filtered_df = df[(df['Race'] == race) & (df['Sex'] == sex)]
+    # Display the filtered dataframe
+    st.write(filtered_df)
 
 if __name__ == '__main__':
     main()
