@@ -195,24 +195,5 @@ def main():
     st.sidebar.info("""
         You can select multiple precincts and elections to filter the data. We reccommend you select 3 of the major elections like national General or Primaries. This will help you determine who in the selected precincts are voting and how often
         """)
-    header_color = '#394241'
-    row_even_color = '#F2F2F2'
-    row_odd_color = 'lightgrey'
-
-    st.write(f"""
-         <style>
-         .reportview-container .dataframe tbody tr.dataframe-header > th {{
-                font-size:16px;
-                background-color: {header_color};
-            }}
-            .reportview-container .dataframe tbody tr.dataframe-data:nth-child(even) > td {{
-                background-color: {row_even_color};
-            }}
-            .reportview-container .dataframe tbody tr.dataframe-data:nth-child(odd) > td {{
-                background-color: {row_odd_color};
-            }}
-            </style>
-            """, unsafe_allow_html=True)
-
 if __name__ == '__main__':
     main()
