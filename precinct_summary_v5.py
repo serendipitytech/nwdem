@@ -176,7 +176,7 @@ def main():
     summary_age['Race, Sex'] = summary_age.index  # Add new column that copies index
     summary_age = summary_age[['Race, Sex'] + [col for col in summary_age.columns if col != 'Race, Sex']]  # Rearrange columns
 
-    st.subheader("Voting Data Summary by Age Ranges")
+   # st.subheader("Voting Data Summary by Age Ranges")
    # fig = go.Figure(data=[go.Table(
    #     header=dict(values=list(summary_age.columns),
    #                 fill_color='rgb(253,141,69)',
