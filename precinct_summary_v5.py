@@ -90,13 +90,27 @@ def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
     return df
 
+PAGES = {
+    "Summary Tables": summary_tables,
+    "Record Details": record_details
+}
+
+
 def main():
     df = load_data()
+
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", list(PAGES.keys()))
+
+    # Keep the data across pages
+    st.session_state.df = df if 'df' not in st.session_state else st.session_state.df
+
+    # Run the appropriate page function
+    PAGES[page]()
+
+def summary_tables():
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Voting Data Summary")
-
-    #file_path = pd.read_csv("s3://my-test-bucket/sample.csv")
-
     
     selected_elections = st.multiselect("Select three elections:", [
         "03-07-2023 Flagler Beach(Mar/07/2023)",
@@ -120,8 +134,42 @@ def main():
         "20190430 Pt Orange Special Primary(Apr/30/2019)",
         "20190402 Edgewater Special General(Apr/02/2019)"
     ], key="elections")
-
     
+    precincts = st.session_state.df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
+    selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
+
+    # Calling the function with selected elections and precincts as arguments
+    summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(st.session_state.df, selected_elections, selected_precincts)
+    
+    st.subheader("Voting Data Summary by Age Ranges")
+    st.table(summary_age)
+
+    st.subheader("Voting History by Race and Sex")
+    st.table(summary_voting_history)
+    
+def record_details():
+    st.title("Record Details")
+
+    precincts = st.session_state.df['Precinct'].unique().tolist()  
+    selected_precinct = st.selectbox("Select Precinct:", precincts, key="precinct")
+
+    age_ranges = ['18-28', '26-34', '35-55', '55+']
+    selected_age_range = st.selectbox("Select Age Range:", age_ranges, key="age_range")
+
+    voting_histories = st.session_state.df['Voting History'].unique().tolist()  
+    selected_voting_history = st.selectbox("Select Voting History:", voting_histories, key="voting_history")
+
+    filtered_df = st.session_state.df[(st.session_state.df['Precinct'] == selected_precinct) & 
+                                      (st.session_state.df['Age Range'] == selected_age_range) & 
+                                      (st.session_state.df['Voting History'] == selected_voting_history)]
+    
+    st.table(filtered_df)
+
+if __name__ == '__main__':
+    main()
+    
+    
+"""
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
 
@@ -140,3 +188,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+"""
