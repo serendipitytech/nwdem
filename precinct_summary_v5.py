@@ -174,6 +174,7 @@ def main():
    
    # Try formating as a plotly graph
     # Reset the index and rename it
+    summary_age.loc['Column Total'] = summary_age.select_dtypes(np.number).sum()  # Add column total
     summary_age.reset_index(inplace=True)
     summary_age = summary_age.rename(columns = {'index':'Index'})
 
@@ -181,10 +182,10 @@ def main():
     summary_age.loc['Column Total'] = summary_age.select_dtypes(np.number).sum()  # Add column totals
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(summary_age.columns),
-                    fill_color='paleturquoise',
+                    #fill_color='paleturquoise',
                     align='left'),
         cells=dict(values=[summary_age[col] for col in summary_age.columns],
-                   fill_color='lavender',
+                   #fill_color='lavender',
                    align='left'))
     ])
     st.plotly_chart(fig)
@@ -192,6 +193,7 @@ def main():
     st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
 
     # Reset the index and rename it
+    summary_voting_history.loc['Column Total'] = summary_voting_history.select_dtypes(np.number).sum()  # Add column totals
     summary_voting_history.reset_index(inplace=True)
     summary_voting_history = summary_voting_history.rename(columns = {'index':'Index'})
 
