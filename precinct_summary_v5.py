@@ -50,13 +50,19 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     if selected_voter_status:
         df = df[df['Voter Status'].isin(selected_voter_status)]
 
-    summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
-
+        
+    #summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
     race_order = ["African American", "Hispanic", "White", "Other"]
     sex_order = ["M", "F", "U"]
+    #summary_age = summary_age.reindex(race_order, level='Race')
+    #summary_age = summary_age.reindex(sex_order, level='Sex')
+    summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
     summary_age = summary_age.reindex(race_order, level='Race')
     summary_age = summary_age.reindex(sex_order, level='Sex')
 
+    # add column totals to the dataframe
+    summary_age.loc[('Total', '', '')] = summary_age.sum()
+    
     row_totals_age = summary_age.sum(axis=1)
     column_totals_age = summary_age.sum(axis=0)
 
