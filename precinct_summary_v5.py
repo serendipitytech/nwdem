@@ -157,15 +157,10 @@ def main():
    
 
    # display the summaries and download links
-    #st.subheader("Voting Data Summary by Age Ranges")
-    #st.table(summary_age)
-    #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
-   # add totals
     st.subheader("Voting Data Summary by Age Ranges")
-    summary_age['Row Total'] = row_totals_age  # Add row totals
-    summary_age.loc['Column Total'] = column_totals_age  # Add column totals
     st.table(summary_age)
     st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
+
 
 
     st.subheader("Voting History by Race and Sex")
