@@ -119,7 +119,7 @@ def main():
     
     # add a selection for voter status
     voter_status = df['Voter Status'].unique().tolist()
-    selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=voter_status, key="voter_status")
+    selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
 
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
