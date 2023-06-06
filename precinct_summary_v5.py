@@ -173,15 +173,16 @@ def main():
     summary_voting_history.index = summary_voting_history.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
 
     summary_age.loc['Column Total'] = summary_age.select_dtypes(np.number).sum()  # Add column totals
-    summary_age['Index'] = summary_age.index  # Add new column that copies index
+    summary_age['Race, Sex'] = summary_age.index  # Add new column that copies index
+    summary_age = summary_age[['Race, Sex'] + [col for col in summary_age.columns if col != 'Race, Sex']]  # Rearrange columns
 
     st.subheader("Voting Data Summary by Age Ranges")
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(summary_age.columns),
-                    fill_color='paleturquoise',
+                    fill_color='#fd8d45',
                     align='left'),
         cells=dict(values=[summary_age[col] for col in summary_age.columns],
-                   fill_color='lavender',
+                   fill_color='#5aclee',
                    align='left'))
     ])
     st.plotly_chart(fig)
@@ -189,15 +190,16 @@ def main():
     st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
 
     summary_voting_history.loc['Column Total'] = summary_voting_history.select_dtypes(np.number).sum()  # Add column totals
-    summary_voting_history['Index'] = summary_voting_history.index  # Add new column that copies index
+    summary_voting_history['Race, Sex'] = summary_voting_history.index  # Add new column that copies index
+    summary_voting_history = summary_voting_history[['Race, Sex'] + [col for col in summary_voting_history.columns if col != 'Race, Sex']]  # Rearrange columns
 
     st.subheader("Voting History by Race and Sex")
     fig2 = go.Figure(data=[go.Table(
         header=dict(values=list(summary_voting_history.columns),
-                    fill_color='paleturquoise',
+                    fill_color='#fd8d45',
                     align='left'),
         cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
-                   fill_color='lavender',
+                   fill_color='#5aclee',
                    align='left'))
     ])
     st.plotly_chart(fig2)
