@@ -76,7 +76,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
     ]
 
     df_voting_history = df[selected_columns].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
-    voting_history = df_voting_history[selected_elections].sum(axis=1)
+    voting_history = df_voting_history[selected_elections].max(axis=1)
     df = df.assign(Voting_History=voting_history)
 
     summary_voting_history = df.groupby(['Race', 'Sex', 'Voting_History']).size().unstack(fill_value=0)
