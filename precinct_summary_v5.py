@@ -89,6 +89,11 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
 
     row_totals_voting_history = summary_voting_history.sum(axis=1)
     column_totals_voting_history = summary_voting_history.sum(axis=0)
+    
+     # select columns for the detailed dataframes
+    columns_for_detailed_age = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"]  # replace with your actual column names
+    columns_for_detailed_voting_history = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"]  # replace with your actual column names
+
 
     return summary_age, row_totals_age, column_totals_age, df, summary_voting_history, row_totals_voting_history, column_totals_voting_history, df_voting_history
 
@@ -136,10 +141,11 @@ def main():
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
-    # get the summaries and detailed records
+   # get the summaries and detailed records
     summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
 
-# display the summaries and download links
+
+   # display the summaries and download links
     st.subheader("Voting Data Summary by Age Ranges")
     st.table(summary_age)
     st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
@@ -147,6 +153,7 @@ def main():
     st.subheader("Voting History by Race and Sex")
     st.table(summary_voting_history)
     st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
+
 
 
 if __name__ == '__main__':
