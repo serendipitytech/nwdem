@@ -111,6 +111,7 @@ def main():
         - **Step 3:** Select the princtincts from the dropdown menu on the left.
         - **Note:** You can select multiple precincts and elections and the counts will update with those selections.
         """)
+    st.sidebar.title("Filter Selections:")
 
     
     selected_elections = st.sidebar.multiselect("Select three elections:", [
