@@ -187,6 +187,11 @@ def main():
                    align='left',
                    font=dict(size=14)))
     ])
+    fig.update_layout(
+        autosize=False,
+        width=1200,  # Adjust width
+        height=800,  # Adjust height
+    )
     st.plotly_chart(fig)
 
     st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
@@ -206,6 +211,11 @@ def main():
                    align='left',
                    font=dict(size=14)))
     ])
+    fig.update_layout(
+        autosize=False,
+        width=1200,  # Adjust width
+        height=800,  # Adjust height
+    )
     st.plotly_chart(fig2)
 
     st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
