@@ -149,17 +149,19 @@ def record_details():
 
 def main():
     df = load_data()
-
+    
+    PAGES = {
+        "Summary Tables": summary_tables,
+        "Record Details": record_details
+    }
+    
     st.sidebar.title("Navigation")
     page = st.sidebar.radio("Go to", list(PAGES.keys()))
 
     # Keep the data across pages
     st.session_state.df = df if 'df' not in st.session_state else st.session_state.df
 
-    PAGES = {
-        "Summary Tables": summary_tables,
-        "Record Details": record_details
-    }
+
 
     # Run the appropriate page function
     PAGES[page]()
