@@ -179,10 +179,10 @@ def main():
     st.subheader("Voting Data Summary by Age Ranges")
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(summary_age.columns),
-                    fill_color='#fd8d45',
+                    fill_color='#FD8D45',
                     align='left'),
         cells=dict(values=[summary_age[col] for col in summary_age.columns],
-                   fill_color='#5aclee',
+                   fill_color='#5ACLEE',
                    align='left'))
     ])
     st.plotly_chart(fig)
@@ -196,10 +196,10 @@ def main():
     st.subheader("Voting History by Race and Sex")
     fig2 = go.Figure(data=[go.Table(
         header=dict(values=list(summary_voting_history.columns),
-                    fill_color='#fd8d45',
+                    fill_color='#FD8D45',
                     align='left'),
         cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
-                   fill_color='#5aclee',
+                   fill_color='#5ACLEE',
                    align='left'))
     ])
     st.plotly_chart(fig2)
