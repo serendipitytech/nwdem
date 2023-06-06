@@ -141,7 +141,7 @@ def record_details():
     selected_age_range = st.selectbox("Select Age Range:", age_ranges, key="age_range")
 
     voting_histories = st.session_state.df['Voting_History'].unique().tolist()  
-    selected_voting_history = st.selectbox("Select Voting_History:", voting_histories, key="voting_history")
+    selected_voting_history = st.selectbox("Select Voting_History:", voting_histories, key="Voting_Histroy")
 
     filtered_df = st.session_state.df[(st.session_state.df['Precinct'] == selected_precinct) & 
                                       (st.session_state.df['Age Range'] == selected_age_range) & 
