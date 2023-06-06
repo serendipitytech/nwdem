@@ -95,8 +95,13 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     summary_voting_history = df.groupby(['Race', 'Sex', 'Voting History']).size().unstack(fill_value=0)
     summary_voting_history = summary_voting_history.reindex(race_order, level='Race')
     summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
-    summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
     summary_voting_history.index = summary_voting_history.index.map(lambda x: f'{x[0]}, {sex_mapping[x[1]]}')  # Combine the multi-index levels into a single string
+
+     # Get the number of selected elections
+    num_elections = len(selected_elections)
+
+    # Rename the column names
+    summary_voting_history.columns = [f'{i} of {num_elections}' for i in range(num_elections + 1)]
 
     row_totals_voting_history = summary_voting_history.sum(axis=1)
     column_totals_voting_history = summary_voting_history.sum(axis=0)
