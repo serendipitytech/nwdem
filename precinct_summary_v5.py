@@ -8,6 +8,7 @@ def create_download_link(df, filename):
     b64 = base64.b64encode(csv.encode()).decode() 
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
+@st.cache
 def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
     #df = df[df['Voter Status'] == 'ACT']
@@ -113,6 +114,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
 
     return summary_age, row_totals_age, column_totals_age, df[columns_for_detailed_age], summary_voting_history, row_totals_voting_history, column_totals_voting_history, df[columns_for_detailed_voting_history]
 
+@st.cache
 def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
     return df
