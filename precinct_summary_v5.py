@@ -114,7 +114,6 @@ def main():
     st.sidebar.title("Filter Selections:")
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
-
         "11-08-2022 General Election(Nov/08/2022)",
         "08-23-2022 Primary Election(Aug/23/2022)",
         "20201103 General Election(Nov/03/2020)",
@@ -136,7 +135,9 @@ def main():
         "03/07/2023 Flagler Beach(Mar/07/2023)",
         "2022 City of Flagler Beach Election(Mar/08/2022)",
 
-    ], key="elections")
+    ],default=["11-08-2022 General Election(Nov/08/2022)",
+        "08-23-2022 Primary Election(Aug/23/2022)",
+        "20201103 General Election(Nov/03/2020)"], key="elections")
 
     
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
