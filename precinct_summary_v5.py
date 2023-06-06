@@ -170,25 +170,3 @@ def main():
     
 if __name__ == '__main__':
     main()
-    
-    
-"""
-    precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
-    selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
-
-    # Calling the function with selected elections and precincts as arguments
-    summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
-    
-    st.subheader("Voting Data Summary by Age Ranges")
-    st.table(summary_age)
-    #st.write('Row Totals:', row_totals_age)
-    #st.write('Column Totals:', column_totals_age)
-
-    st.subheader("Voting History by Race and Sex")
-    st.table(summary_voting_history)
-    # If the button is clicked, change the state to True
-
-
-if __name__ == '__main__':
-    main()
-"""
