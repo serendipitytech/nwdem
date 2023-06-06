@@ -3,7 +3,6 @@ import pandas as pd
 import numpy as np
 import base64
 import plotly.figure_factory as ff
-import plotly.graph_objects as go
 
 def create_download_link(df, filename):
     csv = df.to_csv(index=False)
@@ -171,58 +170,20 @@ def main():
     summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status)
     summary_age.index = summary_age.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
     summary_voting_history.index = summary_voting_history.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
+   
+   # Try formating as a plotly graph
+    st.subheader("Voting Data Summary by Age Ranges")
+    summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
+    fig = ff.create_table(summary_age.reset_index(), index=True)  # Reset index so it appears in table
+    st.plotly_chart(fig)
+    st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
 
-    summary_age.loc['Column Total'] = summary_age.select_dtypes(np.number).sum()  # Add column totals
-    summary_age['Race, Sex'] = summary_age.index  # Add new column that copies index
-    summary_age = summary_age[['Race, Sex'] + [col for col in summary_age.columns if col != 'Race, Sex']]  # Rearrange columns
+    st.subheader("Voting History by Race and Sex")
+    summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
+    fig2 = ff.create_table(summary_voting_history.reset_index(), index=True)  # Reset index so it appears in table
+    st.plotly_chart(fig2)
+    st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
-   # st.subheader("Voting Data Summary by Age Ranges")
-   # fig = go.Figure(data=[go.Table(
-   #     header=dict(values=list(summary_age.columns),
-   #                 fill_color='rgb(253,141,69)',
-   #                 align='left',
-   #                 font=dict(size=14)),
-   #     cells=dict(values=[summary_age[col] for col in summary_age.columns],
-   #                fill_color='rgb(58,136,181)',
-   #                align='left',
-   #                font=dict(size=14)))
-   # ])
-   # fig.update_layout(
-   #     autosize=False,
-   #     width=1000,  # Adjust width
-   #     height=500,  # Adjust height
-   #     #margin=dict(l=20, r=20, t=20, b=20),
-   #     #margin = {'t':75, 'l':50},
-   # )
-   # st.plotly_chart(fig)
-
-    #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
-
-    #summary_voting_history.loc['Column Total'] = summary_voting_history.select_dtypes(np.number).sum()  # Add column totals
-    #summary_voting_history['Race, Sex'] = summary_voting_history.index  # Add new column that copies index
-    #summary_voting_history = summary_voting_history[['Race, Sex'] + [col for col in summary_voting_history.columns if col != 'Race, Sex']]  # Rearrange columns
-
-   # st.subheader("Voting History by Race and Sex")
-   # fig2 = go.Figure(data=[go.Table(
-   #     header=dict(values=list(summary_voting_history.columns),
-   #                 fill_color='rgb(253,141,69)',
-   #                 align='left',
-   #                 font=dict(size=14)),
-   #     cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
-   #                fill_color='rgb(58,136,181)',
-   #                align='left',
-   #                font=dict(size=14)))
-   # ])
-   # fig2.update_layout(
-   #     autosize=False,
-   #     width=1000,  # Adjust width
-   #     height=500,  # Adjust height
-   #     #margin=dict(l=20, r=20, t=20, b=20),
-   #    #margin = {'t':75, 'l':50},
-   # )
-   # st.plotly_chart(fig2)
-
-   # st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
    # display the summaries and download links
     #st.subheader("Voting Data Summary by Age Ranges")
