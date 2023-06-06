@@ -192,7 +192,7 @@ def main():
         width=800,  # Adjust width
         height=600,  # Adjust height
         #margin=dict(l=20, r=20, t=20, b=20),
-        margin = {'t':75, 'l':50},
+       # margin = {'t':75, 'l':50},
     )
     st.plotly_chart(fig)
 
@@ -218,7 +218,7 @@ def main():
         width=800,  # Adjust width
         height=600,  # Adjust height
         #margin=dict(l=20, r=20, t=20, b=20),
-        margin = {'t':75, 'l':50},
+        #margin = {'t':75, 'l':50},
     )
     st.plotly_chart(fig2)
 
