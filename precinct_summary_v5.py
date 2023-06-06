@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+from streamlit_ace import st_ace
+import SessionState
+
 
 
 def summarize_voting_data(df, selected_elections, selected_precincts):
@@ -91,6 +94,8 @@ def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
     return df
 
+state = SessionState.get(button_clicked=False)
+
 def main():
     df = load_data()
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
@@ -136,15 +141,19 @@ def main():
 
     st.subheader("Voting History by Race and Sex")
     st.table(summary_voting_history)
-    # Add a button for the user to click to view underlying data
+    # If the button is clicked, change the state to True
     if st.button('Show Underlying Records'):
-    # Add a selectbox for the user to select a race
+        state.button_clicked = True
+
+    # If the state of the button is True, show the SelectBoxes and the table
+    if state.button_clicked:
+        # Add a selectbox for the user to select a race
         race = st.selectbox('Select a Race', df['Race'].unique())
-    # Add a selectbox for the user to select a sex
+        # Add a selectbox for the user to select a sex
         sex = st.selectbox('Select a Sex', df['Sex'].unique())
-    # Filter the dataframe based on the selected race and sex
+        # Filter the dataframe based on the selected race and sex
         filtered_df = df[(df['Race'] == race) & (df['Sex'] == sex)]
-    # Display the filtered dataframe
+        # Display the filtered dataframe
         st.write(filtered_df)
 
 if __name__ == '__main__':
