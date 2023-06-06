@@ -26,7 +26,8 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
     df['Sex'] = df['Sex'].map(sex_mapping)
 
     df['Birth_Date'] = pd.to_datetime(df['Birth_Date'])
-    df['Age'] = (pd.to_datetime('today') - df['Birth_Date']).astype('<m8[Y]')
+    df['Age'] = (pd.to_datetime('today').year - df['Birth_Date'].dt.year)
+
 
     age_ranges = {
         '18-28': (18, 28),
