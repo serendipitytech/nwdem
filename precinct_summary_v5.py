@@ -174,15 +174,32 @@ def main():
    # Try formating as a plotly graph
     st.subheader("Voting Data Summary by Age Ranges")
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
-    fig = ff.create_table(summary_age.reset_index(), index=True)  # Reset index so it appears in table
+    fig = go.Figure(data=[go.Table(
+        header=dict(values=list(summary_age.columns),
+                    fill_color='paleturquoise',
+                    align='left'),
+        cells=dict(values=[summary_age[col] for col in summary_age.columns],
+                   fill_color='lavender',
+                   align='left'))
+    ])
     st.plotly_chart(fig)
+
     st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
 
     st.subheader("Voting History by Race and Sex")
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
-    fig2 = ff.create_table(summary_voting_history.reset_index(), index=True)  # Reset index so it appears in table
+    fig2 = go.Figure(data=[go.Table(
+        header=dict(values=list(summary_voting_history.columns),
+                    fill_color='paleturquoise',
+                    align='left'),
+        cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
+                   fill_color='lavender',
+                   align='left'))
+    ])
     st.plotly_chart(fig2)
+
     st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
+
 
 
    # display the summaries and download links
@@ -194,15 +211,15 @@ def main():
     #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
  # Display summaries and download links with totals
-    st.subheader("Voting Data Summary by Age Ranges")
-    summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
-    st.table(summary_age)
-    st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
+   # st.subheader("Voting Data Summary by Age Ranges")
+   # summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
+   # st.table(summary_age)
+   # st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
 
-    st.subheader("Voting History by Race and Sex")
-    summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
-    st.table(summary_voting_history)
-    st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
+    #st.subheader("Voting History by Race and Sex")
+    #summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
+    #st.table(summary_voting_history)
+    #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
     
     #Display some information text in sidebar:
