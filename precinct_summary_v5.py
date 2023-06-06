@@ -225,12 +225,12 @@ def main():
    # st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
    # display the summaries and download links
-    st.subheader("Voting Data Summary by Age Ranges")
-    st.table(summary_age)
-    st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
-    st.subheader("Voting History by Race and Sex")
-    st.table(summary_voting_history)
-    st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
+    #st.subheader("Voting Data Summary by Age Ranges")
+    #st.table(summary_age)
+    #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
+    #st.subheader("Voting History by Race and Sex")
+    #st.table(summary_voting_history)
+    #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
  # Display summaries and download links with totals
     st.subheader("Voting Data Summary by Age Ranges")
