@@ -98,7 +98,7 @@ def main():
     #file_path = pd.read_csv("s3://my-test-bucket/sample.csv")
 
     
-    selected_elections = st.multiselect("Select three elections:", [
+    selected_elections = st.sidebar.multiselect("Select three elections:", [
         "03-07-2023 Flagler Beach(Mar/07/2023)",
         "03/07/2023 Flagler Beach(Mar/07/2023)",
         "11-08-2022 General Election(Nov/08/2022)",
@@ -123,7 +123,7 @@ def main():
 
     
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
-    selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
+    selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
     # Calling the function with selected elections and precincts as arguments
     summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
