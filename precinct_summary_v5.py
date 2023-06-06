@@ -192,7 +192,7 @@ def main():
         width=800,  # Adjust width
         height=600,  # Adjust height
         #margin=dict(l=20, r=20, t=20, b=20),
-        margin = {'t':75, 'l':50},
+        #margin = {'t':75, 'l':50},
     )
     st.plotly_chart(fig)
 
@@ -211,7 +211,6 @@ def main():
         cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
                    fill_color='rgb(58,136,181)',
                    align='left',
-                   fill_width=False,
                    font=dict(size=14)))
     ])
     fig2.update_layout(
