@@ -214,9 +214,9 @@ def main():
                    font=dict(size=14)))
     ])
     fig2.update_layout(
-        autosize=False,
-        width=800,  # Adjust width
-        height=600,  # Adjust height
+        #autosize=False,
+        #width=800,  # Adjust width
+        #height=600,  # Adjust height
         #margin=dict(l=20, r=20, t=20, b=20),
         #margin = {'t':75, 'l':50},
     )
