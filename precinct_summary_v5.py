@@ -139,13 +139,13 @@ def main():
     # Add a button for the user to click to view underlying data
     if st.button('Show Underlying Records'):
     # Add a selectbox for the user to select a race
-    race = st.selectbox('Select a Race', df['Race'].unique())
+        race = st.selectbox('Select a Race', df['Race'].unique())
     # Add a selectbox for the user to select a sex
-    sex = st.selectbox('Select a Sex', df['Sex'].unique())
+        sex = st.selectbox('Select a Sex', df['Sex'].unique())
     # Filter the dataframe based on the selected race and sex
-    filtered_df = df[(df['Race'] == race) & (df['Sex'] == sex)]
+        filtered_df = df[(df['Race'] == race) & (df['Sex'] == sex)]
     # Display the filtered dataframe
-    st.write(filtered_df)
+        st.write(filtered_df)
 
 if __name__ == '__main__':
     main()
