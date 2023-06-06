@@ -121,7 +121,11 @@ def summary_tables():
     
     precincts = st.session_state.df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
-
+    
+    if not selected_elections or not selected_precincts:
+        st.warning("Please select at least one election and one precinct.")
+        return
+    
     # Calling the function with selected elections and precincts as arguments
     summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(st.session_state.df, selected_elections, selected_precincts)
     
