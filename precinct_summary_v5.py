@@ -121,7 +121,7 @@ def load_data():
 
 def main():
     df = load_data()
-    st.set_page_config(layout="wide")  # Make the Streamlit app full width
+    #st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Welcome to the Voting Data Summary App")
     st.write("""
         The intent of this app is to quick some quick counts on voters in your precicint.
