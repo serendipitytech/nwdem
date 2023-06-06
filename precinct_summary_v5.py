@@ -199,10 +199,10 @@ def main():
     summary_voting_history.loc['Column Total'] = summary_voting_history.select_dtypes(pd.np.number).sum()  # Add column totals
     fig2 = go.Figure(data=[go.Table(
         header=dict(values=list(summary_voting_history.columns),
-                    fill_color='paleturquoise',
+                    #fill_color='paleturquoise',
                     align='left'),
         cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
-                   fill_color='lavender',
+                   #fill_color='lavender',
                    align='left'))
     ])
     st.plotly_chart(fig2)
