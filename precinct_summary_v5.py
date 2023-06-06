@@ -94,8 +94,13 @@ def main():
     df = load_data()
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Voting Data Summary")
-
-    #file_path = pd.read_csv("s3://my-test-bucket/sample.csv")
+    st.write("""
+        # Welcome to the Voting Data Summary App
+        The intent of this app is to quick some quick counts on voters in your precicint.
+        - **Step 1:** Select the elections you wish to consider from the dropdown menu on the left.
+        - **Step 2:** Select the princtincts from the dropdown menu on the left.
+        - **Note:** You can select multiple precincts and elections and the counts will update with those selections.
+        """)
 
     
     selected_elections = st.sidebar.multiselect("Select three elections:", [
