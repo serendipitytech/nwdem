@@ -112,10 +112,6 @@ def main():
         - **Note:** You can select multiple precincts and elections and the counts will update with those selections.
         """)
     st.sidebar.title("Filter Selections:")
-    st.sidebar.info("""
-        You can select multiple precincts and elections to filter the data. We reccommend you select 3 of the major elections like national General or Primaries. This will help you determine who in the selected precincts are voting and how often
-        """)
-
     
     selected_elections = st.sidebar.multiselect("Select three elections:", [
         "03-07-2023 Flagler Beach(Mar/07/2023)",
@@ -157,6 +153,10 @@ def main():
     st.table(summary_voting_history)
     st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
 
+    #Display some information text in sidebar:
+    st.sidebar.info("""
+        You can select multiple precincts and elections to filter the data. We reccommend you select 3 of the major elections like national General or Primaries. This will help you determine who in the selected precincts are voting and how often
+        """)
 
 
 if __name__ == '__main__':
