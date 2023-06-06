@@ -8,7 +8,7 @@ def create_download_link(df, filename):
     b64 = base64.b64encode(csv.encode()).decode() 
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
-def summarize_voting_data(df, selected_elections, selected_precincts):
+def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
     #df = df[df['Voter Status'] == 'ACT']
 
@@ -45,6 +45,10 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
 
     if selected_precincts:
         df = df[df['Precinct'].isin(selected_precincts)]
+    
+    # add a condition for voter status
+    if selected_voter_status:
+        df = df[df['Voter Status'].isin(selected_voter_status)]
 
     summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
 
@@ -113,6 +117,11 @@ def main():
         """)
     st.sidebar.title("Filter Selections:")
     
+    # add a selection for voter status
+    voter_status = df['Voter Status'].unique().tolist()
+    selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=voter_status, key="voter_status")
+
+    
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
         "11-08-2022 General Election(Nov/08/2022)",
         "08-23-2022 Primary Election(Aug/23/2022)",
@@ -144,8 +153,8 @@ def main():
     selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
    # get the summaries and detailed records
-    summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
-
+    summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status)
+   
 
    # display the summaries and download links
     st.subheader("Voting Data Summary by Age Ranges")
