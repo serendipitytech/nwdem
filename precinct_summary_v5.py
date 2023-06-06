@@ -178,7 +178,7 @@ def main():
     summary_age = summary_age.rename(columns = {'index':'Index'})
 
     st.subheader("Voting Data Summary by Age Ranges")
-    summary_age.loc['Column Total'] = summary_age.select_dtypes(pd.np.number).sum()  # Add column totals
+    summary_age.loc['Column Total'] = summary_age.select_dtypes(np.number).sum()  # Add column totals
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(summary_age.columns),
                     fill_color='paleturquoise',
@@ -196,7 +196,7 @@ def main():
     summary_voting_history = summary_voting_history.rename(columns = {'index':'Index'})
 
     st.subheader("Voting History by Race and Sex")
-    summary_voting_history.loc['Column Total'] = summary_voting_history.select_dtypes(pd.np.number).sum()  # Add column totals
+    summary_voting_history.loc['Column Total'] = summary_voting_history.select_dtypes(np.number).sum()  # Add column totals
     fig2 = go.Figure(data=[go.Table(
         header=dict(values=list(summary_voting_history.columns),
                     #fill_color='paleturquoise',
