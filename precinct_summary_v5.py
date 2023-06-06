@@ -91,10 +91,6 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     summary_voting_history = summary_voting_history.reindex(race_order, level='Race')
     summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
 
-
-    # add column totals to the dataframe
-    summary_voting_history.loc[('Total', '', '')] = summary_voting_history.sum()
-
     row_totals_voting_history = summary_voting_history.sum(axis=1)
     column_totals_voting_history = summary_voting_history.sum(axis=0)
     
