@@ -92,7 +92,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
     
      # select columns for the detailed dataframes
     columns_for_detailed_age = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"]  # replace with your actual column names
-    columns_for_detailed_voting_history = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"]  # replace with your actual column names
+    columns_for_detailed_voting_history = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"] + selected_elections  # replace with your actual column names
 
 
     return summary_age, row_totals_age, column_totals_age, df[columns_for_detailed_age], summary_voting_history, row_totals_voting_history, column_totals_voting_history, df[columns_for_detailed_voting_history]
