@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-st.set_page_config(layout="wide")  # Make the Streamlit app full width
-
 def summarize_voting_data(df, selected_elections, selected_precincts):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
     #df = df[df['Voter Status'] == 'ACT']
@@ -76,10 +74,10 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
     ]
 
     df_voting_history = df[selected_columns].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
-    voting_history = df_voting_history[selected_elections].max(axis=1)
-    df = df.assign(Voting_History=voting_history)
+    voting_history = df_voting_history[selected_elections].sum(axis=1)
+    df['Voting History'] = voting_history
 
-    summary_voting_history = df.groupby(['Race', 'Sex', 'Voting_History']).size().unstack(fill_value=0)
+    summary_voting_history = df.groupby(['Race', 'Sex', 'Voting History']).size().unstack(fill_value=0)
     summary_voting_history = summary_voting_history.reindex(race_order, level='Race')
     summary_voting_history = summary_voting_history.reindex(sex_order, level='Sex')
 
@@ -90,19 +88,17 @@ def summarize_voting_data(df, selected_elections, selected_precincts):
 
 def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
-    
-    selected_columns = [
-        # Add your columns here
-    ]
-    df_voting_history = df[selected_columns].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
-    voting_history = df_voting_history.max(axis=1)
-    df = df.assign(Voting_History=voting_history)
-
     return df
 
-def summary_tables():
-    
+state = SessionState.get(button_clicked=False)
+
+def main():
+    df = load_data()
+    st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Voting Data Summary")
+
+    #file_path = pd.read_csv("s3://my-test-bucket/sample.csv")
+
     
     selected_elections = st.multiselect("Select three elections:", [
         "03-07-2023 Flagler Beach(Mar/07/2023)",
@@ -126,59 +122,23 @@ def summary_tables():
         "20190430 Pt Orange Special Primary(Apr/30/2019)",
         "20190402 Edgewater Special General(Apr/02/2019)"
     ], key="elections")
+
     
-    precincts = st.session_state.df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
+    precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
-    
-    if not selected_elections or not selected_precincts:
-        st.warning("Please select at least one election and one precinct.")
-        return
-    
+
     # Calling the function with selected elections and precincts as arguments
-    summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(st.session_state.df, selected_elections, selected_precincts)
+    summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
     
     st.subheader("Voting Data Summary by Age Ranges")
     st.table(summary_age)
+    #st.write('Row Totals:', row_totals_age)
+    #st.write('Column Totals:', column_totals_age)
 
     st.subheader("Voting History by Race and Sex")
     st.table(summary_voting_history)
-    
-def record_details():
-    st.title("Record Details")
-
-    precincts = st.session_state.df['Precinct'].unique().tolist()  
-    selected_precinct = st.selectbox("Select Precinct:", precincts, key="precinct")
-
-    age_ranges = ['18-28', '26-34', '35-55', '55+']
-    selected_age_range = st.selectbox("Select Age Range:", age_ranges, key="age_range")
-
-    voting_histories = st.session_state.df['Voting_History'].unique().tolist()  
-    selected_voting_history = st.selectbox("Select Voting_History:", voting_histories, key="Voting_Histroy")
-
-    filtered_df = st.session_state.df[(st.session_state.df['Precinct'] == selected_precinct) & 
-                                      (st.session_state.df['Age Range'] == selected_age_range) & 
-                                      (st.session_state.df['Voting_History'] == selected_voting_history)]
-    
-    st.table(filtered_df)
-
-def main():
-    df = load_data()
-    
-    PAGES = {
-        "Summary Tables": summary_tables,
-        "Record Details": record_details
-    }
-    
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", list(PAGES.keys()))
-
-    # Keep the data across pages
-    st.session_state.df = df if 'df' not in st.session_state else st.session_state.df
+    # If the button is clicked, change the state to True
 
 
-
-    # Run the appropriate page function
-    PAGES[page]()
-    
 if __name__ == '__main__':
     main()
