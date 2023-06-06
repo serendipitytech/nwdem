@@ -180,10 +180,12 @@ def main():
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(summary_age.columns),
                     fill_color='rgb(253,141,69)',
-                    align='left'),
+                    align='left',
+                    font=dict(size=14)),
         cells=dict(values=[summary_age[col] for col in summary_age.columns],
                    fill_color='rgb(58,136,181)',
-                   align='left'))
+                   align='left',
+                   font=dict(size=14)))
     ])
     st.plotly_chart(fig)
 
@@ -197,10 +199,12 @@ def main():
     fig2 = go.Figure(data=[go.Table(
         header=dict(values=list(summary_voting_history.columns),
                     fill_color='rgb(253,141,69)',
-                    align='left'),
+                    align='left',
+                    font=dict(size=14)),
         cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
                    fill_color='rgb(58,136,181)',
-                   align='left'))
+                   align='left',
+                   font=dict(size=14)))
     ])
     st.plotly_chart(fig2)
 
