@@ -181,10 +181,10 @@ def main():
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
     fig = go.Figure(data=[go.Table(
         header=dict(values=list(summary_age.columns),
-                    fill_color='paleturquoise',
+                    #fill_color='paleturquoise',
                     align='left'),
         cells=dict(values=[summary_age[col] for col in summary_age.columns],
-                   fill_color='lavender',
+                   #fill_color='lavender',
                    align='left'))
     ])
     st.plotly_chart(fig)
@@ -199,10 +199,10 @@ def main():
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
     fig2 = go.Figure(data=[go.Table(
         header=dict(values=list(summary_voting_history.columns),
-                    fill_color='paleturquoise',
+                    #fill_color='paleturquoise',
                     align='left'),
         cells=dict(values=[summary_voting_history[col] for col in summary_voting_history.columns],
-                   fill_color='lavender',
+                   #fill_color='lavender',
                    align='left'))
     ])
     st.plotly_chart(fig2)
