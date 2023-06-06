@@ -24,9 +24,9 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     df['Race'] = df['Race'].map(race_mapping)
 
     sex_mapping = {
-        "M": "M",
-        "F": "F",
-        "U": "U"
+        "M": "Male",
+        "F": "Female",
+        "U": "Unreported"
     }
     df['Sex'] = df['Sex'].map(sex_mapping)
 
