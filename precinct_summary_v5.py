@@ -2,9 +2,10 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
-def summarize_voting_data(file_path, selected_elections, selected_precincts):
-    df = pd.read_csv(file_path, delimiter=',', low_memory=False)
-    df = df[df['Voter Status'] == 'ACT']
+
+def summarize_voting_data(df, selected_elections, selected_precincts):
+    #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
+    #df = df[df['Voter Status'] == 'ACT']
 
     race_mapping = {
         1: "Other",
@@ -85,12 +86,18 @@ def summarize_voting_data(file_path, selected_elections, selected_precincts):
 
     return summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history
 
+def load_data():
+    df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
+    return df
 
 def main():
+    df = load_data()
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Voting Data Summary")
 
-    file_path = "https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt"
+    #file_path = pd.read_csv("s3://my-test-bucket/sample.csv")
+
+    
     selected_elections = st.multiselect("Select three elections:", [
         "03-07-2023 Flagler Beach(Mar/07/2023)",
         "03/07/2023 Flagler Beach(Mar/07/2023)",
@@ -114,12 +121,13 @@ def main():
         "20190402 Edgewater Special General(Apr/02/2019)"
     ], key="elections")
 
-    df = pd.read_csv(file_path, delimiter=',', low_memory=False)
+    
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.multiselect("Select Precincts:", precincts, key="precincts")
 
-    summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(file_path, selected_elections, selected_precincts)
-
+    # Calling the function with selected elections and precincts as arguments
+    summary_age, row_totals_age, column_totals_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
+    
     st.subheader("Voting Data Summary by Age Ranges")
     st.table(summary_age)
     #st.write('Row Totals:', row_totals_age)
