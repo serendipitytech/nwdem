@@ -112,6 +112,9 @@ def main():
         - **Note:** You can select multiple precincts and elections and the counts will update with those selections.
         """)
     st.sidebar.title("Filter Selections:")
+    st.sidebar.write("""
+        You can select multiple precincts and elections to filter the data. We reccommend you select 3 of the major elections like national General or Primaries. This will help you determine who in the selected precincts are voting and how often
+        """)
 
     
     selected_elections = st.sidebar.multiselect("Select three elections:", [
