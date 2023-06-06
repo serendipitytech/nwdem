@@ -216,7 +216,7 @@ def main():
     fig2.update_layout(
         autosize=False,
         width=1000,  # Adjust width
-        #height=600,  # Adjust height
+        height=400,  # Adjust height
         #margin=dict(l=20, r=20, t=20, b=20),
         #margin = {'t':75, 'l':50},
     )
