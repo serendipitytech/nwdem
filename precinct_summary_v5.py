@@ -188,9 +188,9 @@ def main():
                    font=dict(size=14)))
     ])
     fig.update_layout(
-        autosize=False,
-        width=1200,  # Adjust width
-        height=800,  # Adjust height
+        autosize=True,
+        width=800,  # Adjust width
+        height=600,  # Adjust height
     )
     st.plotly_chart(fig)
 
@@ -211,10 +211,10 @@ def main():
                    align='left',
                    font=dict(size=14)))
     ])
-    fig.update_layout(
-        autosize=False,
-        width=1200,  # Adjust width
-        height=800,  # Adjust height
+    fig2.update_layout(
+        autosize=True,
+        width=800,  # Adjust width
+        height=600,  # Adjust height
     )
     st.plotly_chart(fig2)
 
