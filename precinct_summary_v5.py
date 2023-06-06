@@ -90,24 +90,6 @@ def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
     return df
 
-PAGES = {
-    "Summary Tables": summary_tables,
-    "Record Details": record_details
-}
-
-
-def main():
-    df = load_data()
-
-    st.sidebar.title("Navigation")
-    page = st.sidebar.radio("Go to", list(PAGES.keys()))
-
-    # Keep the data across pages
-    st.session_state.df = df if 'df' not in st.session_state else st.session_state.df
-
-    # Run the appropriate page function
-    PAGES[page]()
-
 def summary_tables():
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
     st.title("Voting Data Summary")
@@ -165,6 +147,23 @@ def record_details():
     
     st.table(filtered_df)
 
+def main():
+    df = load_data()
+
+    st.sidebar.title("Navigation")
+    page = st.sidebar.radio("Go to", list(PAGES.keys()))
+
+    # Keep the data across pages
+    st.session_state.df = df if 'df' not in st.session_state else st.session_state.df
+
+    PAGES = {
+        "Summary Tables": summary_tables,
+        "Record Details": record_details
+    }
+
+    # Run the appropriate page function
+    PAGES[page]()
+    
 if __name__ == '__main__':
     main()
     
