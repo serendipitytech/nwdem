@@ -90,8 +90,6 @@ def load_data():
     df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_data_1.txt', delimiter=',', low_memory=False)
     return df
 
-state = SessionState.get(button_clicked=False)
-
 def main():
     df = load_data()
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
