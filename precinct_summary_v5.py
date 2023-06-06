@@ -140,12 +140,12 @@ def record_details():
     age_ranges = ['18-28', '26-34', '35-55', '55+']
     selected_age_range = st.selectbox("Select Age Range:", age_ranges, key="age_range")
 
-    voting_histories = st.session_state.df['Voting History'].unique().tolist()  
-    selected_voting_history = st.selectbox("Select Voting History:", voting_histories, key="voting_history")
+    voting_histories = st.session_state.df['Voting_History'].unique().tolist()  
+    selected_voting_history = st.selectbox("Select Voting_History:", voting_histories, key="voting_history")
 
     filtered_df = st.session_state.df[(st.session_state.df['Precinct'] == selected_precinct) & 
                                       (st.session_state.df['Age Range'] == selected_age_range) & 
-                                      (st.session_state.df['Voting History'] == selected_voting_history)]
+                                      (st.session_state.df['Voting_History'] == selected_voting_history)]
     
     st.table(filtered_df)
 
