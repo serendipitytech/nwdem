@@ -96,8 +96,9 @@ def main():
     st.title("Welcome to the Voting Data Summary App")
     st.write("""
         The intent of this app is to quick some quick counts on voters in your precicint.
-        - **Step 1:** Select the elections you wish to consider from the dropdown menu on the left.
-        - **Step 2:** Select the princtincts from the dropdown menu on the left.
+        - **Step 1:** Open the side bar if you do not see it now. There will be a small arrow icon in the top left corner that you click or tap to open the side bar.
+        - **Step 2:** Select the elections you wish to consider from the dropdown menu on the left.
+        - **Step 3:** Select the princtincts from the dropdown menu on the left.
         - **Note:** You can select multiple precincts and elections and the counts will update with those selections.
         """)
 
