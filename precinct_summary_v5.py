@@ -188,13 +188,14 @@ def main():
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
     st.table(summary_age)
     #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
-    st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
+    
 
 
     st.subheader("Voting History by Race and Sex")
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
     st.table(summary_voting_history)
-    st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
+    #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
+    st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
 
     
     #Display some information text in sidebar:
