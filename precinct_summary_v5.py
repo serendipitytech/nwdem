@@ -3,8 +3,7 @@ import pandas as pd
 import numpy as np
 import base64
 
-def create_download_link(df, columns, filename):
-    df_export = df[columns].copy()
+def create_download_link(df, filename):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode() 
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
@@ -171,6 +170,10 @@ def main():
     summary_age.index = summary_age.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
     summary_voting_history.index = summary_voting_history.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
 
+    #Create filtered dataframe for download
+    filtered_df = df[df['Precinct'].isin(selected_precincts)]
+
+
 
    # display the summaries and download links
     #st.subheader("Voting Data Summary by Age Ranges")
@@ -185,7 +188,7 @@ def main():
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
     st.table(summary_age)
     #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
-    st.markdown(create_download_link(detailed_age, ["VoterID", "Voter_Name", "Residence_Address", "Telephone_Number", "Race", "Sex", "Birth_Date", "Precinct"], "detailed_age_data.csv"), unsafe_allow_html=True)
+    st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
 
 
     st.subheader("Voting History by Race and Sex")
