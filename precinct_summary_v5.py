@@ -3,7 +3,8 @@ import pandas as pd
 import numpy as np
 import base64
 
-def create_download_link(df, filename):
+def create_download_link(df, columns, filename):
+    df_export = df[columns].copy()
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode() 
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
@@ -183,7 +184,9 @@ def main():
     st.subheader("Voting Data Summary by Age Ranges")
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
     st.table(summary_age)
-    st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
+    #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
+    st.markdown(create_download_link(detailed_age, ["VoterID", "Voter_Name", "Residence_Address", "Telephone_Number", "Race", "Sex", "Birth_Date", "Precinct", "Additional_Column"], "detailed_age_data.csv"), unsafe_allow_html=True)
+
 
     st.subheader("Voting History by Race and Sex")
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()  # Add column totals
