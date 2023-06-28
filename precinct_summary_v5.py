@@ -49,7 +49,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     
     # add a condition for voter status
     if selected_voter_status:
-        df = df[df['Voter Status'].isin(selected_voter_status)]
+        df = df[df['Status'].isin(selected_voter_status)]
 
         
     summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
