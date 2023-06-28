@@ -185,7 +185,7 @@ def main():
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
     st.table(summary_age)
     #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
-    st.markdown(create_download_link(detailed_age, ["VoterID", "Voter_Name", "Residence_Address", "Telephone_Number", "Race", "Sex", "Birth_Date", "Precinct", "Additional_Column"], "detailed_age_data.csv"), unsafe_allow_html=True)
+    st.markdown(create_download_link(detailed_age, ["VoterID", "Voter_Name", "Residence_Address", "Telephone_Number", "Race", "Sex", "Birth_Date", "Precinct"], "detailed_age_data.csv"), unsafe_allow_html=True)
 
 
     st.subheader("Voting History by Race and Sex")
