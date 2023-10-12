@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import base64
 
+# Password for accessing the download
+password = "95_NWDems!"
+
 def create_download_link(df, filename):
     csv = df.to_csv(index=False)
     b64 = base64.b64encode(csv.encode()).decode() 
@@ -196,6 +199,24 @@ def main():
     st.table(summary_voting_history)
     #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
     st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
+    st.title("Secure CSV Download")
+
+    # Password input
+    user_password = st.text_input("Enter Password:", type="password")
+
+    if user_password == password:
+        st.success("Password Correct! You can now download the CSV file.")
+        # Load your data here
+        # df = pd.read_csv('your_data.csv')
+        # Assuming you have a DataFrame named 'df'
+
+        # Display your data
+        st.write(df)
+
+        # Download link
+        st.markdown(create_download_link(df, "downloaded_data.csv"), unsafe_allow_html=True)
+    elif user_password:
+        st.warning("Password Incorrect. Please try again.")
 
     
     #Display some information text in sidebar:
