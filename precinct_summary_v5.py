@@ -204,19 +204,20 @@ def main():
     # Password input
     user_password = st.text_input("Enter Password:", type="password")
 
-    if user_password == password:
-        st.success("Password Correct! You can now download the CSV file.")
-        # Load your data here
-        # df = pd.read_csv('your_data.csv')
-        # Assuming you have a DataFrame named 'df'
+   if st.button("Submit"):
+        if user_password == password:
+            st.success("Password Correct! You can now download the CSV file.")
+            # Load your data here
+            # df = pd.read_csv('your_data.csv')
+            # Assuming you have a DataFrame named 'df'
 
-        # Display your data
-        st.write(df)
+            # Display your data
+            st.write(df)
 
-        # Download link
-        st.markdown(create_download_link(df, "downloaded_data.csv"), unsafe_allow_html=True)
-    elif user_password:
-        st.warning("Password Incorrect. Please try again.")
+            # Download link
+            st.markdown(create_download_link(df, "downloaded_data.csv"), unsafe_allow_html=True)
+        else:
+            st.warning("Password Incorrect. Please try again.")
 
     
     #Display some information text in sidebar:
