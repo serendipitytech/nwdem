@@ -204,7 +204,7 @@ def main():
     # Password input
     user_password = st.text_input("Enter Password:", type="password")
 
-   if st.button("Submit"):
+    if st.button("Submit"):
         if user_password == password:
             st.success("Password Correct! You can now download the CSV file.")
             # Load your data here
