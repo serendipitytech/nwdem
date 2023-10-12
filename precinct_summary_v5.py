@@ -199,8 +199,8 @@ def main():
     st.table(summary_voting_history)
     #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
     #st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
-    st.title("Secure CSV Download")
-    st.subheader("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
+    st.subheader("Secure CSV Download")
+    st.write("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
     # Password input
     user_password = st.text_input("Enter Password:", type="password")
 
