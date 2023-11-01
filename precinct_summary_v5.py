@@ -207,9 +207,9 @@ def main():
     user_password = st.text_input("Enter Password:", type="password")
 
     #Create filtered list using sidebar precinct filter
-    selected_precincts = st.sidebar.multiselect("Select Precincts:", df['Precinct'].unique())
+    #selected_precincts = st.sidebar.multiselect("Select Precincts:", df['Precinct'].unique())
     # Filter the data based on selected precincts
-    filtered_df = df[df['Precinct'].isin(selected_precincts)]
+    #filtered_df = df[df['Precinct'].isin(selected_precincts)]
 
     if st.button("Submit"):
         if user_password == password:
