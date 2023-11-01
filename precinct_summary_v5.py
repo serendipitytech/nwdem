@@ -213,7 +213,7 @@ def main():
 
     if st.button("Submit"):
         if user_password == password:
-            st.success("Password Correct! You can now download the CSV file.")
+            st.success("Password Correct! You can now download the CSV file.  If the preview below is blank, ensure you have selected at least one precicnt in the left menu.")
 
             # Display filtered data
             st.write(filtered_df)
