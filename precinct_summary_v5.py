@@ -8,7 +8,7 @@ password = "95_NWDems!"
 
 def create_download_link(df, filename):
     csv = df.to_csv(index=False)
-    b64 = base64.b64encode(csv.encode()).decode() 
+    b64 = base64.b64encode(csv.encode()).decode()
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
 def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status):
@@ -199,23 +199,27 @@ def main():
     st.table(summary_voting_history)
     #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
     #st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
+    
+    
     st.subheader("Secure CSV Download")
     st.write("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
     # Password input
     user_password = st.text_input("Enter Password:", type="password")
 
+    #Create filtered list using sidebar precinct filter
+    selected_precincts = st.sidebar.multiselect("Select Precincts:", df['Precinct'].unique())
+    # Filter the data based on selected precincts
+    filtered_df = df[df['Precinct'].isin(selected_precincts)]
+
     if st.button("Submit"):
         if user_password == password:
             st.success("Password Correct! You can now download the CSV file.")
-            # Load your data here
-            # df = pd.read_csv('your_data.csv')
-            # Assuming you have a DataFrame named 'df'
 
-            # Display your data
-            st.write(df)
+            # Display filtered data
+            st.write(filtered_df)
 
-            # Download link
-            st.markdown(create_download_link(df, "downloaded_data.csv"), unsafe_allow_html=True)
+            # Download link for filtered data
+            st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
         else:
             st.warning("Password Incorrect. Please try again.")
 
