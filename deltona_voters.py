@@ -13,7 +13,7 @@ def create_download_link(df, filename):
 
 def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
-    #df = df[df['Voter Status'] == 'ACT']
+    df = df[df['Voter Status'] == 'ACT']
 
     race_mapping = {
         1: "Other",
