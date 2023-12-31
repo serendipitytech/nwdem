@@ -63,7 +63,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     
     # add a condition for voter status
     if selected_voter_status:
-        df = df[df['Status'].isin(selected_voter_status)]
+        df = df[df['Voter Status'].isin(selected_voter_status)]
 
     # add a condition for commission district
     if selected_commission_districts:
@@ -244,7 +244,7 @@ def main():
     # Display the Age Distribution by Precinct in a table
     st.subheader("Age Distribution by Precinct")
     st.table(age_distribution)
-    
+
     #st.subheader("Secure CSV Download")
     #st.write("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
     # Password input
