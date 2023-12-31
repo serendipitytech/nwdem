@@ -179,7 +179,7 @@ def main():
     selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
    # get the summaries and detailed records
-    summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status)
+    summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status, selected_commission_districts)
     summary_age.index = summary_age.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
     summary_voting_history.index = summary_voting_history.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
 
