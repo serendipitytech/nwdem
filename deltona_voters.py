@@ -163,7 +163,6 @@ def main():
         56: "District 6"
     }
     city_ward_options = list(city_ward_mapping.valueS())
-    commission_districts = df['City_Ward'].unique().tolist()  # Replace 'City_Ward' with your actual column name
     selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
 
 
