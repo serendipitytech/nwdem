@@ -223,6 +223,7 @@ def main():
  # Display summaries and download links with totals
     st.subheader("Voting Data Summary by Age Ranges")
     summary_age.loc['Column Total'] = summary_age.sum()  # Add column totals
+    summary_age['Row Total'] = summary_age.sum(axis=1) # Add row totals
     st.table(summary_age)
     #st.markdown(create_download_link(detailed_age, "detailed_age_data.csv"), unsafe_allow_html=True)
     
