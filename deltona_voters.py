@@ -117,7 +117,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     return summary_age, row_totals_age, column_totals_age, df[columns_for_detailed_age], summary_voting_history, row_totals_voting_history, column_totals_voting_history, df[columns_for_detailed_voting_history]
 
 def load_data():
-    df = pd.read_csv('https://deltonastrong-assets.s3.amazonaws.com/nw_dems_streamlit.txt', delimiter=',', low_memory=False)
+    df = pd.read_csv('https://serendipitytech.s3.amazonaws.com/deltona/deltona_voters_streamlit.txt', delimiter=',', low_memory=False)
     return df
 
 def main():
