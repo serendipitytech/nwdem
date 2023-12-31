@@ -235,6 +235,15 @@ def main():
     #st.markdown(create_download_link(detailed_voting_history, "detailed_voting_history_data.csv"), unsafe_allow_html=True)
     #st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
     
+        # Filter the data based on selected precincts
+    filtered_df = df[df['Precinct'].isin(selected_precincts)]
+
+    # Calculate the age distribution for each precinct
+    age_distribution = filtered_df.groupby('Precinct')['Age'].mean().reset_index()
+
+    # Display the Age Distribution by Precinct in a table
+    st.subheader("Age Distribution by Precinct")
+    st.table(age_distribution)
     
     #st.subheader("Secure CSV Download")
     #st.write("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
