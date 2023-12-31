@@ -150,7 +150,7 @@ def main():
     st.sidebar.title("Filter Selections:")
     
     # add a selection for voter status
-    # voter_status = df['Status'].unique().tolist()
+    voter_status = df['Status'].unique().tolist()
     selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
 
     # Add a new filter for Deltona Commission District
