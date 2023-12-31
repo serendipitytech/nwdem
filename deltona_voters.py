@@ -58,11 +58,6 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
 
     df['Age Range'] = pd.cut(df['Age'], bins=[age_ranges[range_name][0]-1 for range_name in age_ranges.keys()] + [age_ranges['55+'][1]], labels=age_ranges.keys())
 
-    city_district_to_precinct_mapping = {}
-    for district in df['City_Ward'].unique():
-        precincts = df[df['City_Ward'] == district]['Precinct'].unique().tolist()
-        city_district_to_precinct_mapping[district] = precincts
-
     if selected_precincts:
         df = df[df['Precinct'].isin(selected_precincts)]
     
@@ -171,8 +166,6 @@ def main():
     }
     city_ward_options = list(city_ward_mapping.values())
     selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
-    selected_commission_districts = st.selectbox("Select Deltona Commission Districts:", list(city_district_to_precinct_mapping.keys()))
-
 
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
