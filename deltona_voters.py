@@ -179,8 +179,8 @@ def main():
         selected_precincts = st.multiselect("Select Precincts:", city_district_to_precinct_mapping[selected_commission_districts])
 
 
-    #precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
-    #selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
+    precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
+    selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
     party_options = df['Party'].unique().tolist()
     selected_party = st.sidebar.multiselect("Selected Party:", party_options, key="party")
