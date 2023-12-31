@@ -11,7 +11,7 @@ def create_download_link(df, filename):
     b64 = base64.b64encode(csv.encode()).decode()
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
-def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status, selected_commission_districts):
+def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status, selected_commission_districts, selected_party):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
     #df = df[df['Voter Status'] == 'ACT']
 
