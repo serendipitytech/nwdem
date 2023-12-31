@@ -69,6 +69,8 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     if selected_commission_districts:
         df = df[df['City_Ward'].isin(selected_commission_districts)]
 
+    if selected_party:
+        df = df[df['Party'].isin(selected_party)]
 
         
     summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
@@ -168,6 +170,8 @@ def main():
     precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
     selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
+    party_options = df['Party'].unique().tolist()
+    selected_party = st.sidebar.multiselect("Selected Party:", party_options, key="party")
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
         "11-08-2022 General Election(Nov/08/2022)",
