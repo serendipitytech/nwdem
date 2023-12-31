@@ -150,7 +150,7 @@ def main():
     st.sidebar.title("Filter Selections:")
     
     # add a selection for voter status
-    voter_status = df['Status'].unique().tolist()
+    # voter_status = df['Status'].unique().tolist()
     selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
 
     # Add a new filter for Deltona Commission District
@@ -165,6 +165,8 @@ def main():
     city_ward_options = list(city_ward_mapping.values())
     selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
 
+    precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
+    selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
@@ -194,8 +196,7 @@ def main():
         "20201103 General Election(Nov/03/2020)"], key="elections")
 
     
-    precincts = df['Precinct'].unique().tolist()  # replace 'Precinct' with your actual precinct column name
-    selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
+    
 
    # get the summaries and detailed records
     summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status, selected_commission_districts)
@@ -240,22 +241,22 @@ def main():
     # Filter the data based on selected precincts
     #filtered_df = df[df['Precinct'].isin(selected_precincts)]
 
-    if st.button("Submit"):
-        if user_password == password:
-            st.success("Password Correct! You can now download the CSV file.  \nIf the preview below is blank, ensure you have selected at least one precicnt in the left menu.")
+    #if st.button("Submit"):
+    #    if user_password == password:
+    #        st.success("Password Correct! You can now download the CSV file.  \nIf the preview below is blank, ensure you have selected at least one precicnt in the left menu.")
 
             # Display filtered data
-            st.write(filtered_df)
+    #        st.write(filtered_df)
 
             # Download link for filtered data
-            st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
-        else:
-            st.warning("Password Incorrect. Please try again.")
+    #       st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
+    #  else:
+    #       st.warning("Password Incorrect. Please try again.")
 
     
     #Display some information text in sidebar:
     st.sidebar.info("""
-        You can select multiple precincts and elections to filter the data. We reccommend you select 3 of the major elections like national General or Primaries. This will help you determine who in the selected precincts are voting and how often
+        You can select multiple precincts and/or commission districts elections to filter the data. We reccommend you select 3 of the major elections like national General or Primaries. This will help you determine who in the selected precincts are voting and how often
         """)
 if __name__ == '__main__':
     main()
