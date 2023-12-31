@@ -26,6 +26,16 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     }
     df['Race'] = df['Race'].map(race_mapping)
 
+    city_ward_mapping = {
+        51: "District 1",
+        52: "District 2",
+        53: "District 3",
+        54: "District 4",
+        55: "District 5",
+        56: "District 6"
+    }
+    df['City_Ward'] = df['City_Ward'].map(city_ward_mapping)
+
     sex_mapping = {
         "M": "M",
         "F": "F",
