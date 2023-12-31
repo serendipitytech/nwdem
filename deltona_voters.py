@@ -141,7 +141,7 @@ def load_data():
 def main():
     df = load_data()
     st.set_page_config(layout="wide")  # Make the Streamlit app full width
-    st.title("Welcome to the Voting Data Summary App")
+    st.title("Welcome to the Deltona Voting Data Summary App")
     st.write("""
         The intent of this app is to quick some quick counts on voters in your precicint.
         - **Step 1:** Open the side bar if you do not see it now. There will be a small arrow icon in the top left corner that you click or tap to open the side bar.
