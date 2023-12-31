@@ -154,7 +154,15 @@ def main():
     selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
 
     # Add a new filter for Deltona Commission District
-    
+    city_ward_mapping = {
+        51: "District 1",
+        52: "District 2",
+        53: "District 3",
+        54: "District 4",
+        55: "District 5",
+        56: "District 6"
+    }
+    city_ward_options = list(city_ward_mapping.valueS())
     commission_districts = df['City_Ward'].unique().tolist()  # Replace 'City_Ward' with your actual column name
     selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
 
