@@ -35,6 +35,7 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
         56: "District 6"
     }
     df['City_Ward'] = df['City_Ward'].map(city_ward_mapping).fillna('Unincorporated')
+    city_ward_options = list(city_ward_mapping.valueS())
 
     sex_mapping = {
         "M": "M",
@@ -153,8 +154,9 @@ def main():
     selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
 
     # Add a new filter for Deltona Commission District
+    
     commission_districts = df['City_Ward'].unique().tolist()  # Replace 'City_Ward' with your actual column name
-    selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", commission_districts, key="commission_districts")
+    selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
 
 
     
