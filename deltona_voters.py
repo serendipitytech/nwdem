@@ -54,6 +54,11 @@ def summarize_voting_data(df, selected_elections, selected_precincts, selected_v
     if selected_voter_status:
         df = df[df['Status'].isin(selected_voter_status)]
 
+    # add a condition for commission district
+    if selected_commission_districts:
+        df = df[df['City_Ward'].isin(selected_commission_districts)]
+
+
         
     summary_age = df.groupby(['Race', 'Sex', 'Age Range']).size().unstack(fill_value=0)
     race_order = ["African American", "Hispanic", "White", "Other"]
@@ -136,6 +141,11 @@ def main():
     # add a selection for voter status
     voter_status = df['Status'].unique().tolist()
     selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
+
+    # Add a new filter for Deltona Commission District
+    commission_districts = df['City_Ward'].unique().tolist()  # Replace 'City_Ward' with your actual column name
+    selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", commission_districts, key="commission_districts")
+
 
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
