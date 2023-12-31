@@ -144,8 +144,8 @@ def main():
         The intent of this app is to quick some quick counts on voters in your precicint.
         - **Step 1:** Open the side bar if you do not see it now. There will be a small arrow icon in the top left corner that you click or tap to open the side bar.
         - **Step 2:** Select the elections you wish to consider from the dropdown menu on the left.
-        - **Step 3:** Select the princtincts from the dropdown menu on the left.
-        - **Note:** You can select multiple precincts and elections and the counts will update with those selections.
+        - **Step 3:** Select the princtincts and districts from the dropdown menu on the left to add additional filters.
+        - **Note:** You can select multiple precincts, districts and elections and the counts will update with those selections.
         """)
     st.sidebar.title("Filter Selections:")
     
