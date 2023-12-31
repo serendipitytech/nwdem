@@ -1,3 +1,3 @@
-# nwdem
+# deltona-voters
 
-A new app for summarizing precinct data for NW Dems. 
+A new app for summarizing voter data in Deltona, FL. 
