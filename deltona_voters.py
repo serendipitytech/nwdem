@@ -231,10 +231,10 @@ def main():
     #st.markdown(create_download_link(filtered_df, "filtered_data.csv"), unsafe_allow_html=True)
     
     
-    st.subheader("Secure CSV Download")
-    st.write("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
+    #st.subheader("Secure CSV Download")
+    #st.write("If you need a password to download this data, please email t.shimkus@nwdemocrats.org")
     # Password input
-    user_password = st.text_input("Enter Password:", type="password")
+    #user_password = st.text_input("Enter Password:", type="password")
 
     #Create filtered list using sidebar precinct filter
     #selected_precincts = st.sidebar.multiselect("Select Precincts:", df['Precinct'].unique())
