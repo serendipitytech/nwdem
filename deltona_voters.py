@@ -13,7 +13,7 @@ def create_download_link(df, filename):
 
 def summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status):
     #df = pd.read_csv(file_path, delimiter=',', low_memory=False)
-    df = df[df['Voter Status'] == 'ACT']
+    #df = df[df['Voter Status'] == 'ACT']
 
     race_mapping = {
         1: "Other",
@@ -135,7 +135,7 @@ def main():
     
     # add a selection for voter status
     voter_status = df['Status'].unique().tolist()
-    #selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
+    selected_voter_status = st.sidebar.multiselect("Select Voter Status:", voter_status, default=['ACT'], key="voter_status")
 
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", [
@@ -169,7 +169,7 @@ def main():
     selected_precincts = st.sidebar.multiselect("Select Precincts:", precincts, key="precincts")
 
    # get the summaries and detailed records
-    summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts)
+    summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history = summarize_voting_data(df, selected_elections, selected_precincts, selected_voter_status)
     summary_age.index = summary_age.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
     summary_voting_history.index = summary_voting_history.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
 
