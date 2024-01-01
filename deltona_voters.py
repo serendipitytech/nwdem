@@ -131,15 +131,6 @@ st.set_page_config(layout="centered")
 
 def page_1():
     df = load_data()
-    custom_css = """
-        <style>
-        /* Adjust the margin for the main content area */
-        .stApp {
-            margin: 5px; /* Adjust the margin as needed */
-        }
-        </style>
-        """
-    st.markdown(custom_css, unsafe_allow_html=True)
     st.title("Welcome to the Deltona Voting Data Summary App")
     st.write("""
         The intent of this app is to quick some quick counts on voters in your precinct.
