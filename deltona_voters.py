@@ -180,7 +180,7 @@ def page_1():
     summary_voting_history_by_age = df.groupby(['Age Range', 'Voting History']).size().unstack(fill_value=0)
     st.table(summary_voting_history_by_age)
 
-    st.write('<style>tr:hover {background-color: #D9BF8E;}</style>', unsafe_allow_html=True)
+    #st.write('<style>tr:hover {background-color: #D9BF8E;}</style>', unsafe_allow_html=True)
     st.write('<style>table {width: 50%;}</style>', unsafe_allow_html=True)
     st.write('<style>table tr:nth-child(even) {background-color: #D9BF8E;}</style>', unsafe_allow_html=True)
 
