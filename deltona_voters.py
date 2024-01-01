@@ -227,14 +227,14 @@ def page_2():
         return fig
 
     with col1:
-        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=500, height=500))
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race"))
         all_age_ranges = ["18-28", "26-34", "35-55", "55+"]
         age_range_counts = df.groupby('Age Range').size().reindex(all_age_ranges, fill_value=0)
         st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
 
     with col2:
-        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=500, height=500))
-        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=500, height=500))
+        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex"))
+        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party"))
 
 
 
