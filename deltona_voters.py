@@ -2,9 +2,11 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import base64
+import plotly.express as px
 
 # Password for accessing the download
 password = "95_NWDems!"
+race_mapping = {1: "Other", 2: "Other", 6: "Other", 7: "Other", 9: "Other", 3: "African American", 4: "Hispanic", 5: "White"}
 
 def create_download_link(df, filename):
     csv = df.to_csv(index=False)
@@ -12,7 +14,7 @@ def create_download_link(df, filename):
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
 def summarize_voting_data(df, selected_elections, selected_voter_status, selected_commission_districts, selected_party):
-    race_mapping = {1: "Other", 2: "Other", 6: "Other", 9: "Other", 3: "African American", 4: "Hispanic", 5: "White"}
+    race_mapping = {1: "Other", 2: "Other", 6: "Other", 7: "Other", 9: "Other", 3: "African American", 4: "Hispanic", 5: "White"}
     df['Race'] = df['Race'].map(race_mapping)
 
     city_ward_mapping = {51: "District 1", 52: "District 2", 53: "District 3", 54: "District 4", 55: "District 5", 56: "District 6"}
@@ -77,14 +79,56 @@ def summarize_voting_data(df, selected_elections, selected_voter_status, selecte
 
     return summary_age, row_totals_age, column_totals_age, df[columns_for_detailed_age], summary_voting_history, row_totals_voting_history, column_totals_voting_history, df[columns_for_detailed_voting_history], summary_party_history
 
+def calculate_voter_counts(df, selected_race=None, selected_sex=None, selected_party=None, selected_age_range=None, selected_commission_districts=None):
+    # Replace the values in the "Race" column
+    df['Race'] = df['Race'].map(race_mapping).fillna(df['Race'])  # Apply mapping and fill with the original value if not found
+    city_ward_mapping = {51: "District 1", 52: "District 2", 53: "District 3", 54: "District 4", 55: "District 5", 56: "District 6"}
+    df['City_Ward'] = df['City_Ward'].map(city_ward_mapping).fillna('Unincorporated')
+    df['Birth_Date'] = pd.to_datetime(df['Birth_Date'])
+    df['Age'] = (pd.to_datetime('today').year - df['Birth_Date'].dt.year)
+    age_ranges = {'18-28': (18, 28), '26-34': (26, 34), '35-55': (35, 55), '55+': (55, float('inf'))}
+    df['Age Range'] = pd.cut(df['Age'], bins=[age_ranges[range_name][0]-1 for range_name in age_ranges.keys()] + [age_ranges['55+'][1]], labels=age_ranges.keys())
+
+    # Apply filters based on selected parameters
+    if selected_race:
+        df = df[df['Race'].isin(selected_race)]
+    
+    if selected_sex:
+        df = df[df['Sex'].isin(selected_sex)]
+    
+    if selected_party:
+        df = df[df['Party'].isin(selected_party)]
+
+    if selected_age_range:
+        age_ranges = {'18-28': (18, 28), '26-34': (26, 34), '35-55': (35, 55), '55+': (55, float('inf'))}
+        age_range_values = [age_ranges[range_name] for range_name in selected_age_range]
+        age_filter = df['Age'].apply(lambda x: any(start <= x <= end for start, end in age_range_values))
+        df = df[age_filter]
+    
+    if selected_commission_districts:
+        df = df[df['City_Ward'].isin(selected_commission_districts)]
+
+    # Calculate counts by Race, Sex, Party, and Age Range
+    counts_by_race = df.groupby('Race').size()
+    counts_by_sex = df.groupby('Sex').size()
+    counts_by_party = df.groupby('Party').size()
+    
+    if selected_age_range:
+        counts_by_age_range = df.groupby('Age Range').size()
+    else:
+        counts_by_age_range = None
+
+    return counts_by_race, counts_by_sex, counts_by_party, counts_by_age_range, df
+
+
 def load_data():
     df = pd.read_csv('https://serendipitytech.s3.amazonaws.com/deltona/deltona_voters_streamlit.txt', delimiter=',', low_memory=False)
     return df
 
-def main():
+def page_1():
     df = load_data()
 
-    st.set_page_config(layout="wide")
+    
     st.title("Welcome to the Deltona Voting Data Summary App")
     st.write("""
         The intent of this app is to quick some quick counts on voters in your precinct.
@@ -121,9 +165,62 @@ def main():
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()
     st.table(summary_voting_history)
 
-    st.subheader("Voting History by Race, Sex, and Party")
-    summary_party_history.loc['Column Total'] = summary_party_history.sum()
-    st.table(summary_party_history)
+def page_2():
+    df = load_data()
+    race_values = ["African American", "Hispanic", "White", "Other"]
+    # Create a UI for selecting filters
+    selected_race = st.sidebar.multiselect("Select Race:", race_values)
+    selected_sex = st.sidebar.multiselect("Select Sex:", df['Sex'].unique())
+    selected_party = st.sidebar.multiselect("Select Party:", df['Party'].unique())
+    selected_age_range = st.sidebar.multiselect("Select Age Range:", ["18-28", "26-34", "35-55", "55+"])
+
+    # Allow users to select Deltona Commission Districts
+    city_ward_mapping = {51: "District 1", 52: "District 2", 53: "District 3", 54: "District 4", 55: "District 5", 56: "District 6"}
+    city_ward_options = list(city_ward_mapping.values())
+    selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
+
+    # Call the calculate_voter_counts function with the selected filters
+    race_counts, sex_counts, party_counts, age_range_counts, df = calculate_voter_counts(df, selected_race, selected_sex, selected_party, selected_age_range, selected_commission_districts)
+
+    # Calculate the total number of voters based on the selected filters
+    total_voters = len(df[df['Race'].isin(selected_race) &
+                        df['Sex'].isin(selected_sex) &
+                        df['Party'].isin(selected_party) &
+                        df['Age Range'].isin(selected_age_range) &
+                        df['City_Ward'].isin(selected_commission_districts)])
+
+    # Display the total number of voters
+    st.sidebar.write(f"Total Voters: {total_voters}")
+
+    # Create three columns to display the pie charts side by side
+    col1, col2, col3 = st.columns(3)
+
+    # Function to create a pie chart from a pandas Series
+    def create_pie_chart(data, title):
+        fig = px.pie(data_frame=data, names=data.index, values=data.values, title=f"{title} (Total: {data.sum()})")
+        fig.update_traces(textinfo="percent+label")
+        return fig
+
+    # Place each pie chart in a separate column
+    with col1:
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race"))
+
+    with col2:
+        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex"))
+
+    with col3:
+        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party"))
+
+    if selected_age_range:
+        st.subheader("Voter Counts by Age Range")
+        st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
+
     
 if __name__ == '__main__':
-    main()
+    # Create a dropdown menu for selecting pages
+    selected_page = st.sidebar.selectbox("Select a page:", ["Overview", "Additional Summaries"])
+
+    if selected_page == "Overview":
+        page_1()  # Call the Page 1 function
+    elif selected_page == "Additional Summaries":
+        page_2()  # Call the Page 2 function
