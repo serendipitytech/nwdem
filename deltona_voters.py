@@ -215,9 +215,6 @@ def page_2():
                         df['Age Range'].isin(selected_age_range) &
                         df['City_Ward'].isin(selected_commission_districts)])
 
-    
-    show_percent = st.checkbox("Show Percent", value=True)
-
     # Create three columns to display the pie charts side by side
     col1, col2, col3 = st.columns(3)
 
