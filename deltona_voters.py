@@ -223,7 +223,7 @@ def page_2():
         fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=True)])
         fig.update_layout(title_text=f"{title}", width=width, height=height)
         fig.update_traces(textinfo='none')  # Remove on-chart labels
-        fig.update_layout(legend=dict(orientation="v", yanchor="middle", y=1.05, xanchor="left", x=0.5))  # Adjust legend position
+        fig.update_layout(legend=dict(orientation="v", yanchor="middle", y=1.05, xanchor="left", x=0.001))  # Adjust legend position
         return fig
 
     with col1:
