@@ -225,7 +225,7 @@ def page_2():
         #fig.update_traces(textinfo='none')  # Remove on-chart labels
         fig.update_layout(legend=dict(orientation="v", yanchor="middle", y=1.05, xanchor="left", x=0.001))  # Adjust legend position
         total_count = data.sum()
-        fig.add_annotation(text=f"Total: {total_count}", x=0.5, y=-0.2, showarrow=False, font=dict(size=12))
+        fig.add_annotation(text=f"Total: {total_count}", x=0.05, y=-0.2, showarrow=False, font=dict(size=12))
 
 
         return fig
