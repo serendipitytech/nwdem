@@ -227,13 +227,13 @@ def page_2():
         return fig
 
     with col1:
-        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=300, height=300))
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=500, height=300))
 
     with col2:
-        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=300, height=300))
+        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=500, height=300))
 
     with col3:
-        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=300, height=300))
+        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=500, height=300))
     
     # ...
 
