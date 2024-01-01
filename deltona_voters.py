@@ -127,7 +127,7 @@ def load_data():
     df = pd.read_csv('https://serendipitytech.s3.amazonaws.com/deltona/deltona_voters_streamlit.txt', delimiter=',', low_memory=False)
     return df
 
-st.set_page_config(layout="dashboard")
+st.set_page_config(layout="centered")
 
 def page_1():
     df = load_data()
