@@ -224,6 +224,9 @@ def page_2():
         fig.update_layout(title_text=f"{title}", width=width, height=height)
         #fig.update_traces(textinfo='none')  # Remove on-chart labels
         fig.update_layout(legend=dict(orientation="v", yanchor="middle", y=1.05, xanchor="left", x=0.001))  # Adjust legend position
+        total_count = data.sum()
+        fig.add_trace(go.Scatter(x=[0.5], y=[-0.15], mode="text", text=f"Total: {total_count}", showlegend=False, textfont=dict(size=12)))
+
         return fig
 
     with col1:
