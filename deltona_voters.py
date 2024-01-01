@@ -219,7 +219,7 @@ def page_2():
     col1, col2, col3 = st.columns(3)
 
     # Function to create a pie chart from a pandas Series
-    def create_pie_chart(data, title, width=500, height=300):
+    def create_pie_chart(data, title, width=300, height=300):
         fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=True)])
         fig.update_layout(title_text=f"{title}", width=width, height=height)
         fig.update_traces(textinfo='none')  # Remove on-chart labels
@@ -227,13 +227,13 @@ def page_2():
         return fig
 
     with col1:
-        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=500, height=300))
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=300, height=300))
 
     with col2:
-        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=500, height=300))
+        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=300, height=300))
 
     with col3:
-        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=500, height=300))
+        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=300, height=300))
     
     # ...
 
