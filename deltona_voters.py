@@ -183,6 +183,8 @@ def page_1():
     st.table(summary_voting_history_by_age)
 
     st.write('<style>tr:hover {background-color: #D9BF8E;}</style>', unsafe_allow_html=True)
+    st.write('<style>table {width: 100%;}</style>', unsafe_allow_html=True)
+
 
 def page_2():
     df = load_data()
