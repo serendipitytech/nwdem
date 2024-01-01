@@ -184,6 +184,8 @@ def page_1():
 
     st.write('<style>tr:hover {background-color: #D9BF8E;}</style>', unsafe_allow_html=True)
     st.write('<style>table {width: 50%;}</style>', unsafe_allow_html=True)
+    st.write('<style>table tr:nth-child(even) {background-color: #367d9a;}</style>', unsafe_allow_html=True)
+
 
 
 def page_2():
