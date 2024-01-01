@@ -61,13 +61,13 @@ def summarize_voting_data(df, selected_elections, selected_voter_status, selecte
 
     summary_voting_history.columns = [f'{i} of {num_elections}' for i in range(num_elections + 1)]
 
-    if selected_party:
-        summary_party_history = df.groupby(['Race', 'Sex', 'Voting History', 'Party']).size().unstack(fill_value=0)
-        summary_party_history = summary_party_history.reindex(race_order, level='Race')
-        summary_party_history = summary_party_history.reindex(sex_order, level='Sex')
-        summary_party_history.index = summary_party_history.index.map(lambda x: f'{x[0]}, {sex_mapping[x[1]]}, {x[2]}')  # Combine the multi-index levels into a single string
-    else:
-        summary_party_history = None
+    # Calculate summary for all parties
+    summary_party_history = df.groupby(['Race', 'Sex', 'Voting History', 'Party']).size().unstack(fill_value=0)
+
+    # Create a custom index combining race, sex, and number of elections
+    summary_party_history.index = summary_party_history.index.map(lambda x, num_elections=num_elections: f'{x[0]} {x[1]}, {x[2]} of last {num_elections} elections')
+
+    summary_voting_history.columns = [f'{i} of {num_elections}' for i in range(num_elections + 1)]
 
     row_totals_voting_history = summary_voting_history.sum(axis=1)
     column_totals_voting_history = summary_voting_history.sum(axis=0)
@@ -75,7 +75,7 @@ def summarize_voting_data(df, selected_elections, selected_voter_status, selecte
     columns_for_detailed_age = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"]
     columns_for_detailed_voting_history = ["VoterID", "Race", "Sex", "Birth_Date", "Precinct"] + selected_elections
 
-    return summary_age, row_totals_age, column_totals_age, df[columns_for_detailed_age], summary_voting_history, row_totals_voting_history, column_totals_voting_history, df[columns_for_detailed_voting_history]
+    return summary_age, row_totals_age, column_totals_age, df[columns_for_detailed_age], summary_voting_history, row_totals_voting_history, column_totals_voting_history, df[columns_for_detailed_voting_history], summary_party_history
 
 def load_data():
     df = pd.read_csv('https://serendipitytech.s3.amazonaws.com/deltona/deltona_voters_streamlit.txt', delimiter=',', low_memory=False)
@@ -121,10 +121,9 @@ def main():
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()
     st.table(summary_voting_history)
 
-    if selected_party:
-        st.subheader("Voting History by Race, Sex, and Party")
-        summary_party_history.loc['Column Total'] = summary_party_history.sum()
-        st.table(summary_party_history)
+    st.subheader("Voting History by Race, Sex, and Party")
+    summary_party_history.loc['Column Total'] = summary_party_history.sum()
+    st.table(summary_party_history)
     
 if __name__ == '__main__':
     main()
