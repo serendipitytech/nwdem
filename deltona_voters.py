@@ -223,7 +223,7 @@ def page_2():
         fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=True)])
         fig.update_layout(title_text=f"{title}", width=width, height=height)
         fig.update_traces(textinfo='none')  # Remove on-chart labels
-        fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0.01))  # Adjust legend position
+        fig.update_layout(legend=dict(orientation="v", yanchor="left", y=1.02, xanchor="left", x=0.01))  # Adjust legend position
         return fig
 
     with col1:
@@ -235,13 +235,6 @@ def page_2():
     with col2:
         st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=500, height=300))
         st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=500, height=300))
-    
-    # ...
-
-# Always display the "Voter Counts by Age Range" chart with all age ranges
-    all_age_ranges = ["18-28", "26-34", "35-55", "55+"]
-    age_range_counts = df.groupby('Age Range').size().reindex(all_age_ranges, fill_value=0)
-    st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
 
 
 
