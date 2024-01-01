@@ -220,10 +220,10 @@ def page_2():
 
     # Function to create a pie chart from a pandas Series
     def create_pie_chart(data, title, width=300, height=300):
-        fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=False)])
+        fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=True)])
         fig.update_layout(title_text=f"{title}", width=width, height=height)
-        total_text = f"Total: {data.sum()}"
-        fig.add_annotation(text=total_text, x=0.5, y=-0.2, showarrow=False)
+        fig.update_traces(textinfo='none')  # Remove on-chart labels
+        fig.update_layout(legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="left", x=0.01))  # Adjust legend position
         return fig
 
     with col1:
