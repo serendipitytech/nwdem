@@ -3,10 +3,12 @@ import pandas as pd
 import numpy as np
 import base64
 import plotly.express as px
+import plotly.graph_objects as go
 
 # Password for accessing the download
 password = "95_NWDems!"
 race_mapping = {1: "Other", 2: "Other", 6: "Other", 7: "Other", 9: "Other", 3: "African American", 4: "Hispanic", 5: "White"}
+
 
 def create_download_link(df, filename):
     csv = df.to_csv(index=False)
@@ -14,8 +16,7 @@ def create_download_link(df, filename):
     return f'<a href="data:file/csv;base64,{b64}" download="{filename}">Download CSV File</a>'
 
 def summarize_voting_data(df, selected_elections, selected_voter_status, selected_commission_districts, selected_party):
-    race_mapping = {1: "Other", 2: "Other", 6: "Other", 7: "Other", 9: "Other", 3: "African American", 4: "Hispanic", 5: "White"}
-    df['Race'] = df['Race'].map(race_mapping)
+    df['Race'] = df['Race'].map(race_mapping).fillna(df['Race'])  # Apply mapping and fill with the original value if not found
 
     city_ward_mapping = {51: "District 1", 52: "District 2", 53: "District 3", 54: "District 4", 55: "District 5", 56: "District 6"}
     df['City_Ward'] = df['City_Ward'].map(city_ward_mapping).fillna('Unincorporated')
@@ -50,7 +51,8 @@ def summarize_voting_data(df, selected_elections, selected_voter_status, selecte
     column_totals_age = summary_age.sum(axis=0)
 
     selected_columns = ["03-07-2023 Flagler Beach(Mar/07/2023)", "03/07/2023 Flagler Beach(Mar/07/2023)", "11-08-2022 General Election(Nov/08/2022)", "08-23-2022 Primary Election(Aug/23/2022)", "2022 City of Flagler Beach Election(Mar/08/2022)", "11-02-2021 Municipal Election(Nov/02/2021)", "Daytona Beach Special Primary(Sep/21/2021)", "Municipal Election(Aug/17/2021)", "04-13-2021 Port Orange Primary(Apr/13/2021)", "City of Flagler Beach(Mar/02/2021)", "20201103 General Election(Nov/03/2020)", "20200818 Primary Election(Aug/18/2020)", "20200519 Pierson Mail Ballot Elec(May/19/2020)", "20200317 Pres Preference Primary(Mar/17/2020)", "City of Flagler Beach(Mar/17/2020)", "20191105 Lake Helen General(Nov/05/2019)", "20190611 Pt Orange Special Runoff(Jun/11/2019)", "20190521 Mail Ballot Election(May/21/2019)", "20190430 Pt Orange Special Primary(Apr/30/2019)", "20190402 Edgewater Special General(Apr/02/2019)"]
-    df_voting_history = df[selected_columns].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
+    #df_voting_history = df[selected_columns].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
+    df_voting_history = df[selected_columns].apply(lambda x: x.map({'Y': 1, 'Z': 1, 'A': 1, 'E': 1, 'F': 1}).fillna(0)).astype(int)
     voting_history = df_voting_history[selected_elections].sum(axis=1)
     df['Voting History'] = voting_history
 
@@ -125,6 +127,8 @@ def load_data():
     df = pd.read_csv('https://serendipitytech.s3.amazonaws.com/deltona/deltona_voters_streamlit.txt', delimiter=',', low_memory=False)
     return df
 
+st.set_page_config(layout="wide")
+
 def page_1():
     df = load_data()
 
@@ -151,6 +155,14 @@ def page_1():
     
     selected_elections = st.sidebar.multiselect("Select up to three elections:", ["11-08-2022 General Election(Nov/08/2022)", "08-23-2022 Primary Election(Aug/23/2022)", "20201103 General Election(Nov/03/2020)", "20200818 Primary Election(Aug/18/2020)", "20200317 Pres Preference Primary(Mar/17/2020)", "11-02-2021 Municipal Election(Nov/02/2021)", "Municipal Election(Aug/17/2021)", "20190521 Mail Ballot Election(May/21/2019)", "20190402 Edgewater Special General(Apr/02/2019)", "20191105 Lake Helen General(Nov/05/2019)", "Daytona Beach Special Primary(Sep/21/2021)", "20190430 Pt Orange Special Primary(Apr/30/2019)", "04-13-2021 Port Orange Primary(Apr/13/2021)", "20190611 Pt Orange Special Runoff(Jun/11/2019)", "20200519 Pierson Mail Ballot Elec(May/19/2020)", "City of Flagler Beach(Mar/02/2021)", "City of Flagler Beach(Mar/17/2020)", "03-07-2023 Flagler Beach(Mar/07/2023)", "03/07/2023 Flagler Beach(Mar/07/2023)", "2022 City of Flagler Beach Election(Mar/08/2022)"], default=["11-08-2022 General Election(Nov/08/2022)", "08-23-2022 Primary Election(Aug/23/2022)", "20201103 General Election(Nov/03/2020)"], key="elections")
 
+    # Create the 'Voting History' column based on selected elections
+    #selected_columns = ["03-07-2023 Flagler Beach(Mar/07/2023)", "03/07/2023 Flagler Beach(Mar/07/2023)", "11-08-2022 General Election(Nov/08/2022)", "08-23-2022 Primary Election(Aug/23/2022)", "2022 City of Flagler Beach Election(Mar/08/2022)", "11-02-2021 Municipal Election(Nov/02/2021)", "Daytona Beach Special Primary(Sep/21/2021)", "Municipal Election(Aug/17/2021)", "04-13-2021 Port Orange Primary(Apr/13/2021)", "City of Flagler Beach(Mar/02/2021)", "20201103 General Election(Nov/03/2020)", "20200818 Primary Election(Aug/18/2020)", "20200519 Pierson Mail Ballot Elec(May/19/2020)", "20200317 Pres Preference Primary(Mar/17/2020)", "City of Flagler Beach(Mar/17/2020)", "20191105 Lake Helen General(Nov/05/2019)", "20190611 Pt Orange Special Runoff(Jun/11/2019)", "20190521 Mail Ballot Election(May/21/2019)", "20190430 Pt Orange Special Primary(Apr/30/2019)", "20190402 Edgewater Special General(Apr/02/2019)"]
+    #df_voting_history = df[selected_elections].applymap(lambda x: 1 if x in ['Y', 'Z', 'A', 'E', 'F'] else 0)
+    df_voting_history = df[selected_elections].apply(lambda x: x.map({'Y': 1, 'Z': 1, 'A': 1, 'E': 1, 'F': 1}).fillna(0)).astype(int)
+
+    voting_history = df_voting_history[selected_elections].sum(axis=1)
+    df['Voting History'] = voting_history
+
    # get the summaries and detailed records
     summary_age, row_totals_age, column_totals_age, detailed_age, summary_voting_history, row_totals_voting_history, column_totals_voting_history, detailed_voting_history, summary_party_history = summarize_voting_data(df, selected_elections, selected_voter_status, selected_commission_districts, selected_party)
     summary_age.index = summary_age.index.to_series().replace({'M': 'Male', 'F': 'Female', 'U': 'Unreported'}, regex=True)
@@ -165,19 +177,28 @@ def page_1():
     summary_voting_history.loc['Column Total'] = summary_voting_history.sum()
     st.table(summary_voting_history)
 
+    # Adding a breakdown of age ranges in the voting history table
+    st.subheader("Voting History by Age Ranges")
+    summary_voting_history_by_age = df.groupby(['Age Range', 'Voting History']).size().unstack(fill_value=0)
+    st.table(summary_voting_history_by_age)
+
+
 def page_2():
     df = load_data()
     race_values = ["African American", "Hispanic", "White", "Other"]
-    # Create a UI for selecting filters
-    selected_race = st.sidebar.multiselect("Select Race:", race_values)
-    selected_sex = st.sidebar.multiselect("Select Sex:", df['Sex'].unique())
-    selected_party = st.sidebar.multiselect("Select Party:", df['Party'].unique())
-    selected_age_range = st.sidebar.multiselect("Select Age Range:", ["18-28", "26-34", "35-55", "55+"])
 
     # Allow users to select Deltona Commission Districts
     city_ward_mapping = {51: "District 1", 52: "District 2", 53: "District 3", 54: "District 4", 55: "District 5", 56: "District 6"}
     city_ward_options = list(city_ward_mapping.values())
     selected_commission_districts = st.sidebar.multiselect("Select Deltona Commission Districts:", city_ward_options, key="commission_districts")
+    selected_party = st.sidebar.multiselect("Select Party:", df['Party'].unique())
+    selected_age_range = st.sidebar.multiselect("Select Age Range:", ["18-28", "26-34", "35-55", "55+"])
+
+    # Create a UI for selecting filters
+    selected_race = st.sidebar.multiselect("Select Race:", race_values)
+    selected_sex = st.sidebar.multiselect("Select Sex:", df['Sex'].unique())
+    
+
 
     # Call the calculate_voter_counts function with the selected filters
     race_counts, sex_counts, party_counts, age_range_counts, df = calculate_voter_counts(df, selected_race, selected_sex, selected_party, selected_age_range, selected_commission_districts)
@@ -189,31 +210,35 @@ def page_2():
                         df['Age Range'].isin(selected_age_range) &
                         df['City_Ward'].isin(selected_commission_districts)])
 
-    # Display the total number of voters
-    st.sidebar.write(f"Total Voters: {total_voters}")
+    
+    show_percent = st.checkbox("Show Percent", value=True)
 
     # Create three columns to display the pie charts side by side
     col1, col2, col3 = st.columns(3)
 
     # Function to create a pie chart from a pandas Series
-    def create_pie_chart(data, title):
-        fig = px.pie(data_frame=data, names=data.index, values=data.values, title=f"{title} (Total: {data.sum()})")
-        fig.update_traces(textinfo="percent+label")
+    def create_pie_chart(data, title, width=300, height=300):
+        fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=False)])
+        fig.update_layout(title_text=f"{title} (Total: {data.sum()})", width=width, height=height)
         return fig
 
-    # Place each pie chart in a separate column
     with col1:
-        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race"))
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=300, height=300))
 
     with col2:
-        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex"))
+        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=300, height=300))
 
     with col3:
-        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party"))
+        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=300, height=300))
+    
+    # ...
 
-    if selected_age_range:
-        st.subheader("Voter Counts by Age Range")
-        st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
+# Always display the "Voter Counts by Age Range" chart with all age ranges
+    all_age_ranges = ["18-28", "26-34", "35-55", "55+"]
+    age_range_counts = df.groupby('Age Range').size().reindex(all_age_ranges, fill_value=0)
+    st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
+
+
 
     
 if __name__ == '__main__':
