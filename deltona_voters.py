@@ -135,7 +135,7 @@ def page_1():
         <style>
         /* Adjust the margin for the main content area */
         .stApp {
-            margin: 80px; /* Adjust the margin as needed */
+            margin: 5px; /* Adjust the margin as needed */
         }
         </style>
         """
