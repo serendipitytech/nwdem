@@ -215,8 +215,8 @@ def page_2():
                         df['Age Range'].isin(selected_age_range) &
                         df['City_Ward'].isin(selected_commission_districts)])
 
-    # Create three columns to display the pie charts side by side
-    col1, col2, col3 = st.columns(3)
+    # Create two columns to display the pie charts side by side
+    col1, col2 = st.columns(2)
 
     # Function to create a pie chart from a pandas Series
     def create_pie_chart(data, title, width=300, height=300):
@@ -228,11 +228,12 @@ def page_2():
 
     with col1:
         st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=300, height=300))
+        all_age_ranges = ["18-28", "26-34", "35-55", "55+"]
+        age_range_counts = df.groupby('Age Range').size().reindex(all_age_ranges, fill_value=0)
+        st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
 
     with col2:
         st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=300, height=300))
-
-    with col3:
         st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=300, height=300))
     
     # ...
