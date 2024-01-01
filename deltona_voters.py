@@ -219,7 +219,7 @@ def page_2():
     col1, col2 = st.columns(2)
 
     # Function to create a pie chart from a pandas Series
-    def create_pie_chart(data, title, width=500, height=300):
+    def create_pie_chart(data, title, width=500, height=500):
         fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=True)])
         fig.update_layout(title_text=f"{title}", width=width, height=height)
         fig.update_traces(textinfo='none')  # Remove on-chart labels
@@ -227,14 +227,14 @@ def page_2():
         return fig
 
     with col1:
-        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=500, height=300))
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=500, height=500))
         all_age_ranges = ["18-28", "26-34", "35-55", "55+"]
         age_range_counts = df.groupby('Age Range').size().reindex(all_age_ranges, fill_value=0)
         st.plotly_chart(create_pie_chart(age_range_counts, "Voter Counts by Age Range"))
 
     with col2:
-        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=500, height=300))
-        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=500, height=300))
+        st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=500, height=500))
+        st.plotly_chart(create_pie_chart(party_counts, "Voter Counts by Party", width=500, height=500))
 
 
 
