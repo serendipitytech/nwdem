@@ -220,12 +220,12 @@ def page_2():
 
     # Function to create a pie chart from a pandas Series
     def create_pie_chart(data, title, width=300, height=300):
+        total_text = f"Total:\n{data.sum()}"
         fig = go.Figure(data=[go.Pie(labels=data.index, values=data.values, textinfo="percent+label+value", showlegend=False)])
-        fig.update_layout(title_text=f"{title} (Total: {data.sum()})", width=width, height=height)
+        fig.update_layout(title_text=f"{title} ({total_text})", width=width, height=height)
         return fig
-
     with col1:
-        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race<br/>", width=300, height=300))
+        st.plotly_chart(create_pie_chart(race_counts, "Voter Counts by Race", width=300, height=300))
 
     with col2:
         st.plotly_chart(create_pie_chart(sex_counts, "Voter Counts by Sex", width=300, height=300))
